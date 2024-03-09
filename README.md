@@ -20,6 +20,6 @@ This is a web app hosted on [GitHub Pages](https://docs.github.com/en/pages/gett
 More information will be added as we develop the application in the times to come. Please note that this committed files don't reflect the current status of the project. 
 
 ### Contributors
-The frontend & UI is developed by @Shubhijain03.
-The backend (using `Node.js`) is developed by @pointAcross with additional inputs in database management.
-The database management is done by @zs0c131y, with additional inputs in the backend development. 
+The frontend & UI is developed by [@Shubhijain03](https://github.com/Shubhijain03/).
+The backend (using `Node.js`) is developed by [@pointAcross](https://github.com/pointAcross/) with additional inputs in database management.
+The database management is done by [@zs0c131y](https://github.com/zs0c131y/), with additional inputs in the backend development. 
