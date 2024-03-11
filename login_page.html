@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css"
+        integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            background-color: #282828;
+        }
+
+        .left-container {
+            flex: 9;
+            background-color: black;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
+
+        .left-container img {
+            max-width: 100%; 
+            height: auto; 
+        }
+
+        .right-container {
+            flex: 2;
+            background-color: #282828;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            margin: 20px;
+            margin-left: 40px;
+            margin-right: 40px;
+            position: relative; 
+        }
+
+        #corner-words {
+            margin-left: 20px;
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 70px;
+            font-weight:bold;
+            color: #efe2d2;
+            text-transform: uppercase;
+        }
+
+        #corner-words span {
+            margin-bottom: 8px;
+        }
+
+        .right-container div {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        form {
+            max-width: 300px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #efe2d2;
+            font-weight: bold;
+        }
+
+        input,
+        #submit {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 8px;
+            box-shadow: none;
+            color: black;
+            background-color: #efe2d2;
+            margin-bottom: 16px;
+        }
+
+        #captcha-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+        }
+
+        .captcha-refresh-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 100%;
+        }
+
+        #captcha {
+            width: calc(100% - 20px);
+            /* Adjust the spacing as needed */
+            padding: 10px;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 8px;
+            box-shadow: none;
+            color: black;
+            background-color: #efe2d2;
+            margin-bottom: 16px;
+        }
+
+        .refresh-icon {
+            cursor: pointer;
+            color: black;
+            margin-left: 8px;
+            /* Adjust the spacing as needed */
+        }
+
+        ::placeholder {
+            color: black;
+            opacity: 0.7;
+        }
+
+        #user-input {
+            width: 100%;
+            margin-bottom: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #efe2d2;
+            color: black;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+
+    <script>
+        let captcha;
+
+        function generateCaptcha() {
+            document.getElementById("submit").value = "";
+            captcha = document.getElementById("captcha");
+            let uniqueChars = "";
+            const randomChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for (let i = 0; i < 5; i++) {
+                uniqueChars += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+            }
+
+            captcha.innerHTML = `
+                <div class="captcha-refresh-container">
+                    <div id="captcha" class="captcha">${uniqueChars}</div>
+                    <div class="refresh-icon" onclick="generateCaptcha()">
+                        <i class="fas fa-sync"></i>
+                        <span class="tooltip"></span>
+                    </div>
+                </div>`;
+        }
+
+        function printMessage() {
+            const userInput = document.getElementById("submit").value;
+            const resultElement = document.getElementById("key");
+
+            if (userInput === captcha.innerText) {
+                resultElement.innerHTML = "<strong>Login Successful</strong>";
+            } else {
+                resultElement.innerHTML = "<strong>Login Failed. Try again.</strong>";
+            }
+
+            generateCaptcha();
+        }
+    </script>
+</head>
+
+<body onload="generateCaptcha()">
+    <div class="left-container">
+        <img src="images\img1.png" alt="Logo">
+        <div id="corner-words">
+            <span>Connect</span>
+            <span>Reflect</span>
+            <span>Interact</span>
+        </div>
+    </div>
+    <div class="right-container">
+
+        <form>
+            <div>
+                <label for="username">Email</label>
+                <input type="text" id="username" placeholder="Email">
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Password">
+            </div>
+            <div id="user-input">
+                <label for="submit">Captcha</label>
+            </div>
+
+            <div id="captcha-container">
+                <div id="captcha" class="captcha"></div>
+            </div>
+
+            <div id="user-input">
+                <input type="text" id="submit" placeholder="Captcha">
+            </div>
+
+            <div id="key"></div>
+            <button type="button" onclick="printMessage()">Login</button>
+        </form>
+    </div>
+</body>
+
+</html>
+
