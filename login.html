@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="right-container">
-      <form id="login-form">
+      <form id="login-form" onsubmit="return validateForm()">
         <label for="email">Email</label>
         <input type="email" id="email" placeholder="Email" required /><br />
         <label for="password">Password</label>
@@ -35,7 +35,19 @@
           id="password"
           placeholder="Password"
           required /><br />
-        <button type="button" onclick="printMessage()">Login</button>
+        <div id="captcha-container">
+          <div id="captcha"></div>
+          <button type="button" onclick="refreshCaptcha()">
+            <i class="fas fa-sync-alt"></i>
+            <!-- Refresh icon -->
+          </button>
+        </div>
+        <input
+          type="text"
+          id="captchaInput"
+          placeholder="Enter result"
+          required /><br />
+        <button type="submit">Login</button>
       </form>
     </div>
     <script src="login.js"></script>
