@@ -8,7 +8,7 @@ const port = 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // MongoDB connection configuration
 const mongoURI = "mongodb://localhost:27017"; // Change this to your MongoDB URI
@@ -54,9 +54,9 @@ app.post("/register", async (req, res) => {
   // Simple validation for required fields
   if (!name || !email || !password || !phone || !dob) {
     console.log("Missing required fields."); // Debugging log
-    return res
-      .status(400)
-      .json({ message: "All fields (name, email, password, phone, dob) are required." });
+    return res.status(400).json({
+      message: "All fields (name, email, password, phone, dob) are required.",
+    });
   }
 
   try {
@@ -99,11 +99,15 @@ app.post("/login", async (req, res) => {
 
     if (user) {
       console.log("Login successful."); // Debugging log
-      // Login successful, redirect to home.html
-      res.redirect("/home.html");
+      // Inside the /login route handler, after successful login
+      res
+        .status(200)
+        .json({
+          message: "Login successful.",
+          redirect: "http://localhost:3000/posts.html",
+        });
     } else {
       console.log("Login failed. Incorrect email or password."); // Debugging log
-      // Login failed
       res
         .status(401)
         .json({ message: "Login failed. Incorrect email or password." });

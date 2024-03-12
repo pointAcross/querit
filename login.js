@@ -48,6 +48,7 @@ function validateForm() {
 }
 
 // Function to send login credentials and CAPTCHA result to server and display response
+// Function to send login credentials and CAPTCHA result to server and display response
 function printMessage() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
@@ -61,20 +62,22 @@ function printMessage() {
     },
     body: JSON.stringify({ email, password, captchaInput, captchaResult }),
   })
-    .then((response) => {
-      if (response.ok) {
-        // Check if response is a redirection
-        if (response.redirected) {
-          window.location.href = response.url;
-        } else {
-          throw new Error("Server response is not JSON");
-        }
+    .then((response) => response.json()) // Always parse response as JSON
+    .then((data) => {
+      // Handle the JSON response here
+      console.log(data);
+      if (data.message === "Login successful.") {
+        // Redirect to posts.html upon successful login
+        window.location.href = data.redirect;
       } else {
-        throw new Error("Server response is not JSON");
+        // Display error message to the user
+        alert(data.message);
       }
     })
     .catch((error) => {
       console.error("Error:", error);
+      // Show an error message to the user
+      alert("An error occurred. Please try again.");
     });
 }
 
