@@ -20,7 +20,7 @@ p {
 
 #inner-bg {
     margin: 20px;
-    display: flex;
+    /* display: flex; */
     background-color: black;
     border-radius: 18px;
 }
@@ -203,7 +203,8 @@ p {
 .dropdown {
     display: flex;
     flex-direction: column;
-    position: relative;
+    /* position: fixed; */
+    margin-bottom: 30px;
    
 }
 

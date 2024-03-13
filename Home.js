@@ -48,9 +48,7 @@ postContainer.style.cssText = `
     display: flex;
     flex-direction: column;
     gap: 30px;
-    
-
-`
+    `
 
 
 data.forEach((post) => {
