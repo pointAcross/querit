@@ -8,7 +8,7 @@ const port = 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static("public"));
+app.use(express.static("proj"));
 
 // MongoDB connection configuration
 const mongoURI = "mongodb://localhost:27017"; // Change this to your MongoDB URI
@@ -100,12 +100,10 @@ app.post("/login", async (req, res) => {
     if (user) {
       console.log("Login successful."); // Debugging log
       // Inside the /login route handler, after successful login
-      res
-        .status(200)
-        .json({
-          message: "Login successful.",
-          redirect: "http://localhost:3000/posts.html",
-        });
+      res.status(200).json({
+        message: "Login successful.",
+        redirect: "http://localhost:3000/home.html",
+      });
     } else {
       console.log("Login failed. Incorrect email or password."); // Debugging log
       res
@@ -116,6 +114,12 @@ app.post("/login", async (req, res) => {
     console.error("Error during login:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
+});
+
+// Route handler for user logout
+app.get("/logout", (req, res) => {
+  // Clear any session data or authentication state here
+  res.redirect("/login.html"); // Redirect to the login page
 });
 
 app.listen(port, () => {
