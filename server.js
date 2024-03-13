@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { MongoClient } = require("mongodb");
+const path = require('path');
 
 const app = express();
 const port = 3000;
@@ -121,6 +122,10 @@ app.get("/logout", (req, res) => {
   // Clear any session data or authentication state here
   res.redirect("/login.html"); // Redirect to the login page
 });
+
+// Serve static files
+const projDir = path.join(__dirname, './proj');
+app.use(express.static(projDir));
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
