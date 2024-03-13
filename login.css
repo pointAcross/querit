@@ -1,7 +1,7 @@
 :root {
   --font-family: "Poppins", sans-serif;
   --bg-color: #282828;
-  --fg-color: #efe2d2;
+  --fg-color: #efe2d2; /* Opposite color for readability */
   --border-radius: 20px;
   --max-width: 300px;
 }
@@ -37,11 +37,12 @@ body {
 
 .right-container {
   flex: 2;
-  background-color: slategray;
-  justify-content: center;
+  background-color: var(--bg-color); /* Set background color to match body */
+  justify-content: space-between; /* Evenly space items */
   border-radius: var(--border-radius);
   margin: 20px;
   position: relative;
+  padding: 20px;
 }
 
 #corner-words {
@@ -53,7 +54,7 @@ body {
   align-items: flex-start;
   font-size: 70px;
   font-weight: bold;
-  color: var(--fg-color);
+  color: var(--fg-color); /* Opposite color for readability */
   text-transform: uppercase;
 }
 
@@ -61,49 +62,58 @@ body {
   margin-bottom: 8px;
 }
 
-.right-container div {
+.right-container form {
   width: 100%;
-  margin-bottom: 16px;
-}
-
-form {
-  width: var(--max-width);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-label {
+.right-container label {
   display: block;
   margin-bottom: 8px;
-  color: var(--fg-color);
+  color: var(--fg-color); /* Opposite color for readability */
   font-weight: bold;
 }
 
-input,
-button {
-  width: 100%;
+.right-container input,
+.right-container button {
+  width: calc(100% - 20px); /* Adjust for padding */
   padding: 10px;
   box-sizing: border-box;
   border: none;
   border-radius: 8px;
   box-shadow: none;
   color: black;
-  background-color: var(--fg-color);
+  background-color: var(--fg-color); /* Opposite color for readability */
   margin-bottom: 16px;
 }
 
-input[type="email"],
-input[type="password"] {
+.right-container input[type="email"],
+.right-container input[type="password"],
+.right-container input[type="text"] {
+  /* Added style for text input */
   margin-bottom: 16px;
 }
 
-button {
+.right-container button {
   cursor: pointer;
   font-weight: bold;
 }
 
-::placeholder {
-  color: black;
-  opacity: 0.7;
+.right-container #captcha {
+  border: 1px solid var(--fg-color); /* Opposite color for readability */
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 16px;
+  text-align: center;
+  color: var(--fg-color); /* Opposite color for readability */
+}
+
+.right-container #captchaInput {
+  margin-bottom: 16px;
+}
+
+.refresh-icon {
+  cursor: pointer;
 }

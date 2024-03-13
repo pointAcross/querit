@@ -1,0 +1,351 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: Arial, sans-serif;
+
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}
+
+h4,
+h2,
+h1,
+p {
+    margin: 0;
+}
+
+#inner-bg {
+    margin: 20px;
+    display: flex;
+    background-color: black;
+    border-radius: 18px;
+}
+
+.left-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #282828;
+    padding: 20px;
+}
+
+.right-side {
+    flex-grow: 1;
+    background-color: black;
+    overflow-y: scroll;
+}
+
+.search-box {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.navigation-bar {
+    margin-top: 0px;
+    display: flex;
+    justify-content: space-around;
+    background-color: #282828;
+    color: #ECE4D4;
+    padding: 10px;
+}
+
+.navigation-bar a {
+    text-decoration: none;
+}
+
+.navigation-bar img {
+    width: 28px;
+    height: 28px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.navigation-bar img:hover {
+    transform: scale(1.2);
+}
+
+.navigation-bar img[alt] {
+    color: #ECE4D4;
+    cursor: pointer;
+    transition: color 0.3s, background-color 0.3s;
+    font-weight: bold;
+}
+
+.navigation-bar img[alt]:hover {
+    text-decoration: none;
+    color: black;
+    background-color: #e7dfd0;
+    font-weight: bold;
+}
+
+#content-home {
+    display: none;
+}
+
+#content-posts {
+    display: none;
+}
+
+#content-thread {
+    display: none;
+}
+
+#content-notifications {
+    display: none;
+}
+
+#content-profile {
+    display: none;
+}
+
+#headings {
+    text-align: center;
+    color: #ECE4D4;
+    font-weight: bold;
+}
+
+.box {
+    display: flex;
+    border: 2px solid black;
+    margin-top: 12px;
+    height: 42px;
+    background-color: #efe2d2;
+    color: black;
+    cursor: pointer;
+    border-radius: 40px;
+    align-items: center;
+    box-sizing: border-box;
+    flex-direction: row;
+    width: 90%;
+    max-width: 300px;
+
+}
+
+#box-text-l {
+    padding-left: 14px;
+    text-align: left;
+    flex-grow: 1;
+}
+
+#box-text-r {
+    padding-right: 14px;
+    font-weight: bold;
+    text-align: right;
+    flex-shrink: 0;
+    width: auto;
+}
+
+:root {
+    --footer-inline-spacing: 50px;
+    /* Default spacing between inline elements */
+}
+
+
+.footer-container {
+    width: 100%;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-section {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+.logout-btn {
+    font-size: 16px;
+    background-color: #f62500;
+    display: flex;
+    transition: background-color 0.3s;
+    border: 2px solid black;
+    padding: 10px 52px;
+    cursor: pointer;
+    border-radius: 14px;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    flex-direction: row;
+    width: 100%;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.post-button:hover,.logout-btn:hover {
+    color: black;
+}
+
+
+.right-inner-bg {
+    background-color: 1E1E1E;
+    color: white;
+    padding: 20px;
+    border-radius: 14px;
+    gap: 16px;
+    flex-direction: column;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+/*post page right side*/
+.dropdown {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+   
+}
+
+.dropbtn {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    position: relative;
+    width: 180px;
+    box-sizing: border-box;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    background-color: #282828;
+    min-width: 180px; 
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    animation: fadeIn 0.5s ease-in-out;
+    padding: 4px 0;
+}
+
+.dropdown-content a {
+    color:white;
+    padding:5px 10px;
+    text-decoration: none;
+    display:flex;
+    transition: background-color 0.3s;
+    border-radius: 4px;
+    font-size:12px;
+}
+
+.dropdown-content a:hover {
+    background-color: black;
+    border-radius:6px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #555;
+}
+
+.dropdown:hover .dropbtn .arrow-icon {
+    color: #fff;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.arrow-icon {
+    margin-left: auto;
+    font-size: 20px;
+    color: #fff;
+}
+@media screen and (max-width: 600px) {
+    .dropbtn {
+        font-size: 10px;
+        padding: 6px 12px;
+        width: auto;
+    }
+    .dropdown-content {
+        top: calc(100% + 4px);
+        min-width: 160px; /* Adjusted for smaller screens */
+    }
+}
+.draft{
+    padding-right:40px;
+}
+.line{
+        display: flex;
+        flex-direction:row;
+        justify-content:space-between;
+        
+
+}
+#inner-bg2 {
+    padding: 16px;
+    display: flex;
+    background-color: #282828;
+    border-radius: 12px;
+    flex-direction: column;
+    border: 2px solid black;
+    align-items: center;
+    gap:16px;
+
+}
+#inner-bg2 textarea {
+    width: 100%;
+    background-color: #282828;
+    border: none;
+    color:white;
+}
+#inner-bg2 textarea::placeholder{
+    color:white;
+    font-weight: bold;
+}
+.line2{
+    width:100%;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-between; 
+}
+.line3{
+    display: flex; 
+    flex-direction:row; 
+    justify-content:space-between; 
+}
+.post-button{
+    font-size: 16px;
+    background-color: #f62500;
+    display: flex;
+    transition: background-color 0.3s;
+    border: 2px solid black;
+    padding: 10px 20px; 
+    cursor: pointer;
+    border-radius: 12px;
+    justify-content: center;
+    box-sizing: border-box;
+    flex-direction: row;
+    font-weight: bold; 
+    color: #ffffff;
+}
+
+
+
+
+
