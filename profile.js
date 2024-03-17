@@ -25,12 +25,19 @@ var data = [{
 let profilecontainerM = document.getElementById("profile_container");
 data.forEach((prof) => {
     let container = document.createElement("div");
+    container.style.cssText = `
+    background-color: #282828;
+    color:white;
+    padding:20px;
+    border-radius: 14px;
+    display:flex;
+    flex-wrap:wrap;
+    flex-direction:column;
+    gap:12px; 
+    `;
 
-    let profilecontainer = document.createElement("div");
     let profilecontainer1 = document.createElement("div");
     let profilecontainer2 = document.createElement("div");
-    let profilecontainer3 = document.createElement("div");
-    let profilecontainer4 = document.createElement("div");
 
     // Author details
     // Avatar
@@ -63,7 +70,7 @@ data.forEach((prof) => {
      justify-content: center;
      box-sizing: border-box;
      flex-direction: row;
-     width: 1%;
+     width: 100%;
      font-weight: bold;
      color: #ffffff;
     `;
@@ -91,17 +98,6 @@ data.forEach((prof) => {
     profilecontainer2.appendChild(bio);
 
 
-    container.style.cssText = `
-    background-color: #282828;
-    color:white;
-    padding:20px;
-    border-radius: 14px;
-    display:flex;
-    flex-wrap:wrap;
-    flex-direction:column;
-    gap:12px; 
-
-    `;
     container.appendChild(profilecontainer2);
     container.appendChild(profilecontainer1);
 
