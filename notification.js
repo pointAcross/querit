@@ -127,7 +127,7 @@ var data = [
           display: inline;
           font-size:14px;
           color:grey;
-          justify-content:flex-end;
+          margin-left: 790px;
         
       `;
     authorContainer1.appendChild(authorName);
