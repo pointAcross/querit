@@ -188,29 +188,6 @@ p {
     color: black;
 }
 
-.edit-profile-button {
-    font-size: 12px;
-    background-color: #f62500;
-    display: inline-block;
-    transition: background-color 0.3s;
-    border: 2px solid black;
-    padding: 10px 52px;
-    cursor: pointer;
-    border-radius: 14px;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    flex-direction: row;
-    width: 20%;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-.name-and-button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
 .right-inner-bg {
     background-color: 1E1E1E;
@@ -339,6 +316,7 @@ p {
     border: 2px solid black;
     align-items: center;
     gap: 16px;
+    color:white;
 
 }
 
@@ -383,11 +361,9 @@ p {
     color: #ffffff;
 }
 
-
 h1 {
-    color: #ECE4D4;
-    font-size: 2em;
-    padding: 12px;
+    color: #ECE4D4;    
+    padding: 5px;
 }
 
 @media (max-width: 600px) {
@@ -395,3 +371,79 @@ h1 {
         font-size: 1.5em;
     }
 }
+/* edit-page */
+.con {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh; /* Make container take up the full viewport height */
+}
+
+.edit_h1{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#inner-bg3 {
+    padding: 2vw;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    background-color: #282828;
+    border-radius: 14px;  
+    border: 2px solid black;
+    color:white;
+    width: 70%; 
+    max-width: 400px,
+}
+
+label {
+    margin-bottom: 6px;
+    font-weight: bold;
+    color:white;
+
+}
+#inner-bg3 .edit_input::placeholder {
+    color: white;
+   
+}
+
+.edit_input {
+    padding: 8px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    background-color: #282828;
+    color:white;
+    border-radius: 8px;
+    width: calc(100% - 18px);
+}
+
+textarea {
+    resize: vertical; 
+    
+}
+
+.button-container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.update-button {
+    margin-top: 8px;
+    background-color:green ;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 150px;
+    font-size: 16px;
+}
+
+.update-button:hover {
+    font-weight:bold;
+    color:black;
+}
+
