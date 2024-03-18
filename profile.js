@@ -85,7 +85,8 @@ data.forEach((prof) => {
     nameContainer.style.cssText = `
       display: flex;
       align-items: center;
-      justify-content:space-between; 
+      justify-content:space-between;
+      column-gap:600px; 
      
     `;
 
@@ -108,7 +109,7 @@ data.forEach((prof) => {
      justify-content: center;
      box-sizing: border-box;
      flex-direction:column;
-     width: 30%;
+     width:30%;
      font-weight: bold;
      color: #ffffff;
     `;
@@ -139,7 +140,7 @@ data.forEach((prof) => {
     display: flex;
     flex-direction:column;
     flex-wrap:wrap;
-    gap:2px;
+    gap:0px;
     `
    
     profilecontainer3.appendChild(avatar);
