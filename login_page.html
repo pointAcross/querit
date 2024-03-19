@@ -11,48 +11,32 @@
 
     <style>
         body {
-            margin: 0;
-            padding: 0;
+            margin:0;
+            padding:0;
             font-family: Arial, sans-serif;
             height: 100vh;
             display: flex;
             background-color: #282828;
+            flex-direction: row;
         }
 
         .left-container {
-            flex: 9;
-            background-color: black;
-            color: white;
-            padding: 20px;
+            flex-grow:3;
+            background-color: black;          
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center; 
+           
         }
 
         .left-container img {
-            max-width: 100%; 
-            height: auto; 
+            max-width: 100%;  
         }
 
-        .right-container {
-            flex: 2;
-            background-color: #282828;
-            padding: 20px;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-            margin: 20px;
-            margin-left: 40px;
-            margin-right: 40px;
-            position: relative; 
-        }
+        /*corner words CONNECT,REFLECT,INTERACT*/ 
 
         #corner-words {
-            margin-left: 20px;
             position: absolute;
             bottom: 20px;
             left: 20px;
@@ -60,99 +44,143 @@
             flex-direction: column;
             align-items: flex-start;
             font-size: 70px;
-            font-weight:bold;
+            font-weight: bold;
             color: #efe2d2;
             text-transform: uppercase;
         }
-
-        #corner-words span {
-            margin-bottom: 8px;
+        /* media query */ 
+        
+        @media screen and (max-width: 760px) {
+            /* media query for the corner words CONNECT,REFLECT,INTERACT*/
+            #corner-words {
+                font-size: 60px; 
+            }
+            .right-container div {
+                width: calc(100% - 20px); /* Adjust width to fit within the container with some padding */
+                margin-bottom: 8px; 
+            }
+            form {
+                max-width: 100%; /* Set the maximum width to 100% for smaller screens */
+            }
         }
+        
+        @media screen and (max-width: 480px) {
+            #corner-words {
+                font-size: 50px; 
+            }
+            .right-container div {
+                width: calc(100% - 10px); /* Further adjust width for even smaller screens */
+                margin-bottom: 4px; 
+            }
+        }  
+        
+        .right-container {
+            flex:2;
+            background-color: #282828;
+            padding:20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center; 
+                       
+        }
+     
 
         .right-container div {
-            width: 100%;
-            margin-bottom: 16px;
+            width: 100%; /* This ensures the divs fill the entire width of their container */
+            padding-bottom: 10px; 
+        } 
+        
+        h1{
+            color:#efe2d2;
+            font-weight: bolder;
+            display: flex;
+            flex-direction: column;
+            font-size:50px;
         }
-
+        
         form {
-            max-width: 300px;
+            max-width: 290x;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding:10px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
+        label {           
+            padding-bottom: 8px;
             color: #efe2d2;
             font-weight: bold;
         }
 
-        input,
-        #submit {
+        input
+         {
             width: 100%;
             padding: 10px;
-            box-sizing: border-box;
+            box-sizing:border-box;
             border: none;
-            border-radius: 8px;
+            border-radius:8px;
             box-shadow: none;
             color: black;
             background-color: #efe2d2;
-            margin-bottom: 16px;
-        }
+                      
+         }
 
-        #captcha-container {
+        .captcha-container {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
             width: 100%;
             box-sizing: border-box;
-            margin-bottom: 16px;
+            margin-bottom:16px;
         }
 
         .captcha-refresh-container {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            width: 100%;
+            display: flex;          
+            justify-content: flex-end; 
+          
         }
-
-        #captcha {
-            width: calc(100% - 20px);
-            /* Adjust the spacing as needed */
-            padding: 10px;
+        
+        .captcha {
+            width: calc(100% - 20px); /* Adjust the spacing as needed */
+            padding: 4px;
             box-sizing: border-box;
             border: none;
-            border-radius: 8px;
+            border-radius:8px;
             box-shadow: none;
             color: black;
             background-color: #efe2d2;
-            margin-bottom: 16px;
+            width:100%;
+            height:65%;
         }
 
         .refresh-icon {
+            width:100%;
             cursor: pointer;
             color: black;
-            margin-left: 8px;
-            /* Adjust the spacing as needed */
+            padding-right: 5%; /* Adjust the spacing as needed */
         }
+        
 
         ::placeholder {
             color: black;
             opacity: 0.7;
+            font-weight:lighter;
         }
 
         #user-input {
             width: 100%;
-            margin-bottom: 16px;
+            padding-bottom:8px;
         }
 
         button {
             width: 100%;
             padding: 10px;
-            background-color: #efe2d2;
-            color: black;
+            background-color:black;
+            color: grey;
             border: none;
             cursor: pointer;
             border-radius: 8px;
@@ -208,6 +236,7 @@
         </div>
     </div>
     <div class="right-container">
+        <h1>Login</h1>
 
         <form>
             <div>
