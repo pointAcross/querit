@@ -2,10 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { MongoClient } = require("mongodb");
-const path = require('path');
+const path = require("path");
+const crypto = require("crypto");
+const session = require("express-session");
+const MongoStore = require("connect-mongo");
 
 const app = express();
 const port = 3000;
+const secretKey = crypto.randomBytes(20).toString("hex");
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -25,6 +29,16 @@ async function connectToMongoDB() {
   }
 }
 
+app.use(
+  session({
+    secret: secretKey,
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: mongoURI }),
+    cookie: { maxAge: 60 * 60 * 24 * 1000 }, // 1 day
+  })
+);
+
 // Connect to MongoDB
 connectToMongoDB();
 
@@ -39,6 +53,22 @@ async function insertUserToDatabase(userInfo) {
     console.error("Error inserting user:", err);
     throw err;
   }
+}
+
+// Page protection
+// Protect pages
+app.get("/home.html", isAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, "proj", "home.html"));
+});
+
+// Middleware to check if user is authenticated
+function isAuthenticated(req, res, next) {
+  // Check if user is logged in (simplified example)
+  if (req.session && req.session.isLoggedIn) {
+    return next();
+  }
+  // If not authenticated, redirect to login page
+  res.redirect("/login.html");
 }
 
 // Route handler for the root path
@@ -75,7 +105,6 @@ app.post("/register", async (req, res) => {
 // Route handler for user login
 app.post("/login", async (req, res) => {
   const { email, password, captchaInput, captchaResult } = req.body;
-
   console.log(`Received login request for email: ${email}`); // Debugging log
 
   // Simple email and password validation
@@ -100,7 +129,13 @@ app.post("/login", async (req, res) => {
 
     if (user) {
       console.log("Login successful."); // Debugging log
+
       // Inside the /login route handler, after successful login
+      req.session.email = email; // Store email in session
+
+      // Set session cookie with user's email
+      res.cookie("userEmail", email, { maxAge: 60 * 60 * 24 * 1000 }); // 1 day
+
       res.status(200).json({
         message: "Login successful.",
         redirect: "http://localhost:3000/home.html",
@@ -118,13 +153,28 @@ app.post("/login", async (req, res) => {
 });
 
 // Route handler for user logout
-app.get("/logout", (req, res) => {
-  // Clear any session data or authentication state here
-  res.redirect("/login.html"); // Redirect to the login page
+app.post("/logout", function (req, res, next) {
+  console.log("Received logout request..."); // Debugging log
+
+  req.session.destroy(function (err) {
+    if (err) {
+      console.error("Error destroying session:", err); // Debugging log
+      return next(err);
+    }
+
+    console.log("Session destroyed successfully."); // Debugging log
+
+    res.clearCookie("connect.sid"); // Clear the session cookie
+
+    // Send the response immediately after session destruction
+    res
+      .status(200)
+      .json({ message: "Logged out successfully", redirectToLogin: true });
+  });
 });
 
 // Serve static files
-const projDir = path.join(__dirname, './proj');
+const projDir = path.join(__dirname, "./proj");
 app.use(express.static(projDir));
 
 app.listen(port, () => {
