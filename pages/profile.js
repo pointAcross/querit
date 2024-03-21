@@ -83,9 +83,10 @@ data.forEach((prof) => {
     let nameContainer = document.createElement("div");
     nameContainer.className = "name-and-button-container"; 
     nameContainer.style.cssText = `
-    //   display: flex;
-    //   align-items: center;
-      justify-content:space-between; 
+      display: flex;
+      align-items: center;
+      justify-content:space-between;
+    
      
     `;
 
@@ -101,17 +102,16 @@ data.forEach((prof) => {
      display:inline-block;
      transition: background-color 0.3s;
      border: 2px solid black;
-     padding:7px;
+     padding:10px;
      cursor: pointer;
      border-radius: 14px;
      align-items: center;
      justify-content: center;
      box-sizing: border-box;
      flex-direction:column;
-     width: 30%;
+     width:30%;
      font-weight: bold;
      color: #ffffff;
-     
     `;
     // Set button text
     button.innerText = 'Edit Profile!';
@@ -140,7 +140,7 @@ data.forEach((prof) => {
     display: flex;
     flex-direction:column;
     flex-wrap:wrap;
-    gap:2px;
+    gap:0px;
     `
    
     profilecontainer3.appendChild(avatar);

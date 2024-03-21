@@ -1,6 +1,6 @@
 body {
-    margin: 0;
-    padding: 0;
+    margin:0;
+    padding:0;
     font-family: Arial, sans-serif;
 
 }
@@ -19,10 +19,11 @@ p {
 }
 
 #inner-bg {
-    margin: 20px;
-    /* display: flex; */
+    margin:20px;
+    margin-top: 0px;;
+    padding-top:80px;
     background-color: black;
-    border-radius: 18px;
+    border-radius: 14px;
 }
 
 .left-side {
@@ -30,7 +31,7 @@ p {
     flex-direction: column;
     justify-content: space-between;
     background-color: #282828;
-    padding: 20px;
+    padding:20px;
 }
 
 .right-side {
@@ -47,13 +48,17 @@ p {
     flex-wrap: nowrap;
 }
 
-.navigation-bar {
-    margin-top: 0px;
+.navigation-bar {  
+    /* position:fixed;  */
+    top:0;    
+    width:99%; 
     display: flex;
     justify-content: space-around;
     background-color: #282828;
     color: #ECE4D4;
-    padding: 10px;
+    padding:10px 5px;
+    z-index: 1;
+    overflow:hidden;
 }
 
 .navigation-bar a {
@@ -61,8 +66,8 @@ p {
 }
 
 .navigation-bar img {
-    width: 28px;
-    height: 28px;
+    width:28px;
+    height:28px;
     transition: transform 0.3s ease-in-out;
 }
 
@@ -138,7 +143,7 @@ p {
     font-weight: bold;
     text-align: right;
     flex-shrink: 0;
-    width: auto;
+    
 }
 
 :root {
@@ -154,7 +159,7 @@ p {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 8px;
+    gap:8px;
 }
 
 .footer-section {
@@ -202,10 +207,13 @@ p {
 }
 
 /*post page right side*/
+
+.post_h{
+   padding-top:10px;
+}
 .dropdown {
     display: flex;
     flex-direction: column;
-    /* position: fixed; */
     margin-bottom: 30px;
 
 }
@@ -315,7 +323,7 @@ p {
     flex-direction: column;
     border: 2px solid black;
     align-items: center;
-    gap: 16px;
+   
     color:white;
 
 }
@@ -323,8 +331,10 @@ p {
 #inner-bg2 textarea {
     width: 100%;
     background-color: #282828;
+    font-size: 16px;;
     border: none;
     color: white;
+   
 }
 
 #inner-bg2 textarea::placeholder {
@@ -371,6 +381,19 @@ h1 {
         font-size: 1.5em;
     }
 }
+
+
+/* notification page 
+.noti_h{
+    padding-bottom:10px;
+    padding-top:10px;
+  
+   
+}
+
+
+
+
 /* edit-page */
 .con {
     display: flex;
@@ -384,7 +407,6 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
 }
 #inner-bg3 {
     padding: 2vw;
@@ -447,3 +469,4 @@ textarea {
     font-weight:bold;
     color:black;
 }
+

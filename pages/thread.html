@@ -88,10 +88,17 @@
                 <a href="profile.html"></a>
             </div>
             <div id="inner-bg">
+                <div class="dropdown">
+                    <button class="dropbtn">Sort By<span class="arrow-icon">&#x25BE;</span></button>
+                    <div class="dropdown-content">
+                         <a href="Home.js" onclick="onclick('commentContainer')">Comment</a>
+                        <a href="Home.js" onclick="onclick('ViewContainer')">Views</a>
+                    </div>
+                </div>
                 <div>
-                    <h1 class="inner-bg">Profile</h1>
-                    <div id="profile_container"></div>
-                    <script src="profile.js" type="text/javascript"></script>  
+                    <div id="post-container"></div>
+                    <script>var pageName = "Thread" </script>
+                    <script src="Home.js" type="text/javascript"></script>
                 </div>
 
             </div>
