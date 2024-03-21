@@ -1,0 +1,119 @@
+:root {
+  --font-family: "Poppins", sans-serif;
+  --bg-color: #282828;
+  --fg-color: #efe2d2; /* Opposite color for readability */
+  --border-radius: 20px;
+  --max-width: 300px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  height: 100vh;
+  display: flex;
+  background-color: var(--bg-color);
+}
+
+.left-container,
+.right-container {
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.left-container {
+  flex: 9;
+  background-color: black;
+  color: white;
+}
+
+.left-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.right-container {
+  flex: 2;
+  background-color: var(--bg-color); /* Set background color to match body */
+  justify-content: space-between; /* Evenly space items */
+  border-radius: var(--border-radius);
+  margin: 20px;
+  position: relative;
+  padding: 20px;
+}
+
+#corner-words {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 70px;
+  font-weight: bold;
+  color: var(--fg-color); /* Opposite color for readability */
+  text-transform: uppercase;
+}
+
+#corner-words span {
+  margin-bottom: 8px;
+}
+
+.right-container form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.right-container label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--fg-color); /* Opposite color for readability */
+  font-weight: bold;
+}
+
+.right-container input,
+.right-container button {
+  width: calc(100% - 20px); /* Adjust for padding */
+  padding: 10px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+  color: black;
+  background-color: var(--fg-color); /* Opposite color for readability */
+  margin-bottom: 16px;
+}
+
+.right-container input[type="email"],
+.right-container input[type="password"],
+.right-container input[type="text"] {
+  /* Added style for text input */
+  margin-bottom: 16px;
+}
+
+.right-container button {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.right-container #captcha {
+  border: 1px solid var(--fg-color); /* Opposite color for readability */
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 16px;
+  text-align: center;
+  color: var(--fg-color); /* Opposite color for readability */
+}
+
+.right-container #captchaInput {
+  margin-bottom: 16px;
+}
+
+.refresh-icon {
+  cursor: pointer;
+}
