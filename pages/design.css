@@ -21,7 +21,8 @@ p {
 #inner-bg {
     margin:20px;
     margin-top: 0px;;
-    padding-top:80px;
+    padding-top:20px ;
+    padding-bottom:20px;
     background-color: black;
     border-radius: 14px;
 }
@@ -49,7 +50,7 @@ p {
 }
 
 .navigation-bar {  
-    /* position:fixed;  */
+    position:sticky;  
     top:0;    
     width:99%; 
     display: flex;
@@ -193,7 +194,6 @@ p {
     color: black;
 }
 
-
 .right-inner-bg {
     background-color: 1E1E1E;
     color: white;
@@ -210,6 +210,7 @@ p {
 
 .post_h{
    padding-top:10px;
+   font-weight: bolder;
 }
 .dropdown {
     display: flex;
@@ -316,14 +317,13 @@ p {
 }
 
 #inner-bg2 {
-    padding: 16px;
+    padding:25px;
     display: flex;
     background-color: #282828;
     border-radius: 12px;
     flex-direction: column;
     border: 2px solid black;
-    align-items: center;
-   
+    align-items: center;   
     color:white;
 
 }
@@ -356,6 +356,7 @@ p {
 }
 
 .post-button {
+    margin-top: 10px;
     font-size: 16px;
     background-color: #f62500;
     display: flex;
@@ -383,23 +384,42 @@ h1 {
 }
 
 
-/* notification page 
-.noti_h{
-    padding-bottom:10px;
-    padding-top:10px;
-  
-   
+ /* notification page  */
+.noti_head{   
+    padding: 0px 10px px 16px;
+    font-weight:bolder; 
+    
+}
+
+#inner-bg_prof{
+    margin:20px;
+    padding:25px;
+    display: flex;
+    background-color: #282828;
+    border-radius: 12px;
+    flex-direction: column;
+    border: 2px solid black;
+    align-items: center;   
+    color:white;
+
 }
 
 
-
+/* profile page */
+.profile_head{
+    padding-top:40px;
+    padding-left: 40px;
+    padding-bottom: 0px;
+    font-weight: bolder;
+}
 
 /* edit-page */
 .con {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 90vh; /* Make container take up the full viewport height */
+    padding-top: 0px;
+    height: 80vh; /* Make container take up the full viewport height */
 }
 
 .edit_h1{
@@ -407,6 +427,9 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: bolder;
+    padding-top:0px;
+    padding-bottom: 20px;
 }
 #inner-bg3 {
     padding: 2vw;
@@ -417,12 +440,12 @@ h1 {
     border-radius: 14px;  
     border: 2px solid black;
     color:white;
-    width: 70%; 
+    width: 60%; 
     max-width: 400px,
 }
 
 label {
-    margin-bottom: 6px;
+    margin-bottom:4px;
     font-weight: bold;
     color:white;
 
@@ -443,8 +466,7 @@ label {
 }
 
 textarea {
-    resize: vertical; 
-    
+    resize: vertical;     
 }
 
 .button-container {
@@ -457,7 +479,7 @@ textarea {
     margin-top: 8px;
     background-color:green ;
     color: white;
-    padding: 10px 20px;
+    padding: 8px 20px 8px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;

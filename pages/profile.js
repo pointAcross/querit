@@ -41,7 +41,7 @@ data.forEach((prof) => {
     container2.style.cssText = `
     background-color: #282828;
     color:white;
-    padding:30px;
+    padding:18px;
     display:flex;
     flex-wrap:wrap;
     flex-direction:row;

@@ -75,15 +75,16 @@ var data = [
       display: flex;
       flex-direction: column;
       gap:30px;
+      
       `;
   data.forEach((noti) => {
     let container = document.createElement("div");
   
     let authorContainer = document.createElement("div");
     let authorContainer1 = document.createElement("div");
+    let authorContainer2 = document.createElement("div");
     let authorContainer3 = document.createElement("div");
     let authorContainer4 = document.createElement("div");
-    let authorContainer2 = document.createElement("div");
     let authorContainer5 = document.createElement("div");
     authorContainer.style.cssText = `
           display: flex;
@@ -138,6 +139,7 @@ var data = [
           gap:8px;
          
       `;
+
     //replying any individual
     //reply
     let replying_to = document.createElement("p");
@@ -202,6 +204,7 @@ var data = [
   `;
     // followed_by
     let authorContainer_F_1 = document.createElement("div");
+
     //  let authorContainer_F_2 = document.createElement("div");
     let followed_you = document.createElement("p");
     followed_you.innerText = ` @${noti.followed_you.id} Followed You`;
@@ -221,6 +224,8 @@ var data = [
           `;
     let container2 = document.createElement("div");
     container2.appendChild(authorContainer_F_1);
+
+
     //container2.appendChild(authorContainer_F_2);
     container2.style.cssText = `
        background-color: #282828;
