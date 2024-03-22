@@ -66,19 +66,21 @@ function printMessage() {
       // Handle the JSON response here
       console.log(data);
       if (data.message === "Login successful.") {
-        // Set login status in session storage
-        localStorage.setItem("isLoggedIn", "true");
         // Redirect to home.html upon successful login
         window.location.href = data.redirect;
       } else {
         // Display error message to the user
         alert(data.message);
+        // Refresh CAPTCHA on unsuccessful login
+        refreshCaptcha();
       }
     })
     .catch((error) => {
       console.error("Error:", error);
       // Show an error message to the user
       alert("An error occurred. Please try again.");
+      // Refresh CAPTCHA on error
+      refreshCaptcha();
     });
 }
 
@@ -87,11 +89,7 @@ function refreshCaptcha() {
   renderCaptcha();
 }
 
-// Check login status on page load and redirect if logged in
+// Ensure CAPTCHA is rendered when the page loads
 window.onload = function () {
-  if (localStorage.getItem("isLoggedIn") === "true") {
-    window.location.href = "http://localhost:3000/home.html"; // Redirect to home page
-  } else {
-    renderCaptcha();
-  }
-};
+  renderCaptcha();
+ };
