@@ -13,7 +13,6 @@ const secretKey = crypto.randomBytes(20).toString("hex");
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static("proj"));
 
 // MongoDB connection configuration
 const mongoURI = "mongodb://localhost:27017"; // Change this to your MongoDB URI
@@ -42,34 +41,38 @@ app.use(
 // Connect to MongoDB
 connectToMongoDB();
 
-// Function to insert a user into the database
-async function insertUserToDatabase(userInfo) {
-  try {
-    const db = client.db(dbName);
-    const collection = db.collection("users");
-    await collection.insertOne(userInfo);
-    console.log("User inserted into database successfully.");
-  } catch (err) {
-    console.error("Error inserting user:", err);
-    throw err;
-  }
-}
-
-// Page protection
-// Protect pages
-app.get("/home.html", isAuthenticated, (req, res) => {
-  res.sendFile(path.join(__dirname, "proj", "home.html"));
-});
-
 // Middleware to check if user is authenticated
 function isAuthenticated(req, res, next) {
-  // Check if user is logged in (simplified example)
-  if (req.session && req.session.isLoggedIn) {
+  // Exclude login and register routes from authentication check
+  if (
+    req.path === "/login.html" ||
+    req.path === "/register.html" ||
+    (req.session && req.session.isLoggedIn)
+  ) {
     return next();
   }
-  // If not authenticated, redirect to login page
+  // If not authenticated and not accessing login or register page, redirect to login
   res.redirect("/login.html");
 }
+
+// Protect pages
+app.get(
+  [
+    "/home.html",
+    "/thread.html",
+    "/posts.html",
+    "/notifications.html",
+    "/profile.html",
+    "/edit_profile.html",
+  ],
+  isAuthenticated,
+  (req, res) => {
+    res.sendFile(path.join(__dirname, "proj", req.path));
+  }
+);
+
+// Serve static files after applying authentication middleware
+app.use(express.static("proj"));
 
 // Route handler for the root path
 app.get("/", (req, res) => {
@@ -130,7 +133,8 @@ app.post("/login", async (req, res) => {
     if (user) {
       console.log("Login successful."); // Debugging log
 
-      // Inside the /login route handler, after successful login
+      // Inside the /login route handler, after successful login, set the session flag to indicate that the user is logged in and store the user's email in the session.
+      req.session.isLoggedIn = true;
       req.session.email = email; // Store email in session
 
       // Set session cookie with user's email
