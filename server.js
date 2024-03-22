@@ -156,6 +156,61 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Route handler for updating user profile
+app.post("/updateProfile", async (req, res) => {
+  // Extract user profile data from the request body
+  const { name, dob, email, password, phone } = req.body;
+
+  // Extract the email of the logged-in user from the session
+  const userEmail = req.session.email;
+
+  // Retrieve the user document from the database using the email
+  const db = client.db(dbName);
+  const collection = db.collection("users");
+  const user = await collection.findOne({ email: userEmail });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Extract the ObjectId of the user document
+  const userId = user._id;
+
+  // Construct the update query
+  const updateQuery = {};
+
+  // Allow all fields to be updated
+  if (name) updateQuery.name = name;
+  if (dob) updateQuery.dob = dob;
+  if (password) updateQuery.password = password;
+  if (phone) updateQuery.phone = phone;
+
+  // If the email is being updated, handle it separately to avoid errors
+  if (email && email !== userEmail) {
+    // Check if the new email already exists in the database
+    const existingUser = await collection.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    // Update the email field in the document
+    updateQuery.email = email;
+  }
+
+  try {
+    // Update the user document in the database
+    await collection.updateOne({ _id: userId }, { $set: updateQuery });
+
+    // Send a JSON response indicating a successful update
+    res.status(200).json({ message: "Profile updated successfully" });
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    // Send a JSON response with error details
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 // Route handler for user logout
 app.post("/logout", function (req, res, next) {
   console.log("Received logout request..."); // Debugging log

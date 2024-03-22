@@ -19,4 +19,5 @@ This is a web app hosted on [GitHub Pages](https://docs.github.com/en/pages/gett
 
 More information will be added as we develop the application in the times to come. Please note that this committed files don't reflect the current status of the project. 
 
-
+### Contributors
+[![Contributors](https://contrib.rocks/image?repo=pointAcross/querit)](https://github.com/pointAcross/querit/graphs/contributors)
