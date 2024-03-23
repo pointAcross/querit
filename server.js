@@ -232,6 +232,24 @@ app.post("/logout", function (req, res, next) {
   });
 });
 
+// Route handler for fetching user name in the profile page
+app.get("/getUserName", async (req, res) => {
+  // Extract the email of the logged-in user from the session
+  const userEmail = req.session.email;
+
+  // Retrieve the user document from the database using the email
+  const db = client.db(dbName);
+  const collection = db.collection("users");
+  const user = await collection.findOne({ email: userEmail });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Send the user's name in the response
+  res.status(200).json({ name: user.name });
+});
+
 // Serve static files
 const projDir = path.join(__dirname, "./proj");
 app.use(express.static(projDir));
