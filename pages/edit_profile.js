@@ -24,11 +24,16 @@ function updateProfile() {
     .then((data) => {
       console.log("Profile Updated!", data);
       // Redirect to profile
-      window.location.href = "/profile.html";  
+      window.location.href = "/profile.html";
     })
     .catch((error) => {
       console.error("Error updating profile:", error);
     });
+}
+
+function onCancel() {
+  // Redirect to profile page without making a server request
+  window.location.href = "/profile.html";
 }
 
 function onHover(x, src) {

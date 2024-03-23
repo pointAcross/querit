@@ -430,7 +430,21 @@ textarea {
   font-size: 16px;
 }
 
-.update-button:hover {
+.cancel-button {
+  margin-top: 8px;
+  background-color: green;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 150px;
+  font-size: 16px;
+  margin-left: 15px;
+}
+
+.update-button:hover,
+.cancel-button:hover {
   font-weight: bold;
   color: black;
 }
