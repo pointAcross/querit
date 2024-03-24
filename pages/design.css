@@ -457,3 +457,34 @@ textarea {
     padding: 10px;
   }
 }
+
+.search-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-bottom: 20px; /* Adjust spacing between search box and other elements */
+}
+
+.search-box input[type="text"] {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px; /* Adjust spacing between input and button */
+}
+
+.search-box button {
+  background-color: #f62500;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.search-box button:hover {
+  background-color: #d32000;
+}
