@@ -6,6 +6,7 @@ const path = require("path");
 const crypto = require("crypto");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
+const bcrypt = require("bcrypt");
 
 const app = express();
 const port = 3000;
@@ -79,6 +80,13 @@ app.get("/", (req, res) => {
   res.send("Server is running.");
 });
 
+// Function to insert user into the database
+async function insertUserToDatabase(user) {
+  const db = client.db(dbName);
+  const collection = db.collection("users");
+  await collection.insertOne(user);
+}
+
 // Route handler for user registration
 app.post("/register", async (req, res) => {
   const { name, email, password, phone, dob } = req.body;
@@ -94,8 +102,17 @@ app.post("/register", async (req, res) => {
   }
 
   try {
-    // Insert user into the database
-    await insertUserToDatabase({ name, email, password, phone, dob });
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
+
+    // Insert user into the database with hashed password
+    await insertUserToDatabase({
+      name,
+      email,
+      password: hashedPassword,
+      phone,
+      dob,
+    });
 
     console.log("User registration successful."); // Debugging log
     res.status(200).json({ message: "User registration successful." });
@@ -110,7 +127,7 @@ app.post("/login", async (req, res) => {
   const { email, password, captchaInput, captchaResult } = req.body;
   console.log(`Received login request for email: ${email}`); // Debugging log
 
-  // Simple email and password validation
+  // Simple email validation
   if (!email || !password) {
     console.log("Missing email or password."); // Debugging log
     return res
@@ -128,27 +145,35 @@ app.post("/login", async (req, res) => {
     // Fetch user from the database
     const db = client.db(dbName);
     const collection = db.collection("users");
-    const user = await collection.findOne({ email: email, password: password });
+    const user = await collection.findOne({ email });
 
     if (user) {
-      console.log("Login successful."); // Debugging log
+      // Compare hashed password
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-      // Inside the /login route handler, after successful login, set the session flag to indicate that the user is logged in and store the user's email in the session.
-      req.session.isLoggedIn = true;
-      req.session.email = email; // Store email in session
+      if (isPasswordCorrect) {
+        console.log("Login successful."); // Debugging log
 
-      // Set session cookie with user's email
-      res.cookie("userEmail", email, { maxAge: 60 * 60 * 24 * 1000 }); // 1 day
+        // Inside the /login route handler, after successful login, set the session flag to indicate that the user is logged in and store the user's email in the session.
+        req.session.isLoggedIn = true;
+        req.session.email = email; // Store email in session
 
-      res.status(200).json({
-        message: "Login successful.",
-        redirect: "http://localhost:3000/home.html",
-      });
+        // Set session cookie with user's email
+        res.cookie("userEmail", email, { maxAge: 60 * 60 * 24 * 1000 }); // 1 day
+
+        res.status(200).json({
+          message: "Login successful.",
+          redirect: "http://localhost:3000/home.html",
+        });
+      } else {
+        console.log("Login failed. Incorrect email or password."); // Debugging log
+        res
+          .status(401)
+          .json({ message: "Login failed. Incorrect email or password." });
+      }
     } else {
-      console.log("Login failed. Incorrect email or password."); // Debugging log
-      res
-        .status(401)
-        .json({ message: "Login failed. Incorrect email or password." });
+      console.log("User not found."); // Debugging log
+      res.status(404).json({ message: "User not found." });
     }
   } catch (error) {
     console.error("Error during login:", error);
