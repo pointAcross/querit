@@ -1,6 +1,9 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 body {
-    margin:0;
-    padding:0;
     font-family: Arial, sans-serif;
 
 }
@@ -42,22 +45,36 @@ p {
 }
 
 .search-box {
+    flex:1;
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
     display: flex;
     flex-wrap: nowrap;
+    border-radius:12px;
+    /* margin-bottom: 20px; */
 }
 
+.search-box button {
+    border: none;
+    outline: none;
+    background-color:#ECE4D4;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 6px;
+    margin-left: 10px; /* Add margin for spacing */
+    cursor: pointer;
+}
 .navigation-bar {  
     position:sticky;  
-    top:0;    
-    width:99%; 
+    top:0; 
+    width: 100%;     
     display: flex;
     justify-content: space-around;
+    align-items: center;
     background-color: #282828;
     color: #ECE4D4;
-    padding:10px 5px;
+    padding:12px 0px;
     z-index: 1;
     overflow:hidden;
 }
@@ -79,17 +96,75 @@ p {
 .navigation-bar img[alt] {
     color: #ECE4D4;
     cursor: pointer;
-    transition: color 0.3s, background-color 0.3s;
+    transition: color 0.2s, background-color 0.3s;
     font-weight: bold;
+        
 }
 
 .navigation-bar img[alt]:hover {
     text-decoration: none;
-    color: black;
-    background-color: #e7dfd0;
+    color:black;    
     font-weight: bold;
 }
 
+/* tooltip-decoration and position  */
+.tooltip {
+    position: relative;
+    display: flex;
+    margin: 0 8px;
+    
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 4px 8px;
+    position: absolute;
+    bottom: -20px; /* Position the tooltip below the icon/button */
+    left: 50%; /* Center the tooltip horizontally */
+    transform: translateX(-50%);
+    z-index: 1;
+    font-size: 14px;
+    opacity: 0; /* Make the tooltip initially hidden */
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  /* Tooltip text visible on hover */  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity:1;
+  }
+
+
+  /* Responsive adjustments */
+  @media only screen and (max-width: 768px) {
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 6px 8px;
+      position: absolute;
+      font-size:12px;
+      bottom: -20px; /* Position the tooltip below the icon/button */
+      left: 50%; /* Center the tooltip horizontally */
+      transform: translateX(-50%);
+      z-index: 1;
+      opacity: 0; /* Make the tooltip initially hidden */
+      transition: opacity 0.3s, transform 0.3s;
+    }
+  }
+  @media only screen and (max-width: 576px) {
+    .tooltip .tooltiptext {
+      width: 66px; /* Further adjust tooltip width for even smaller screens */
+      padding: 6px 0px;
+      left: 50%; /* Center the tooltip horizontally */
+    }
+  }
 #content-home {
     display: none;
 }
@@ -329,9 +404,10 @@ p {
 }
 
 #inner-bg2 textarea {
+    margin-bottom: 20px;
     width: 100%;
     background-color: #282828;
-    font-size: 16px;;
+    font-size: 20px;;
     border: none;
     color: white;
    
@@ -407,9 +483,9 @@ h1 {
 
 /* profile page */
 .profile_head{
-    padding-top:40px;
-    padding-left: 40px;
-    padding-bottom: 0px;
+    padding-top:30px;
+    padding-left:40px;
+    padding-bottom:0px;
     font-weight: bolder;
 }
 

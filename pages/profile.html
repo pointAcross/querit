@@ -55,21 +55,45 @@
 
         <div class="right-side">
             <div class="navigation-bar">
-                <a href="home.html" onclick="showContent('home')">
-                    <img src="images/home.png" alt="Home" onmouseover="onHover(this,'images/hover/Home1.png')"
-                        onmouseout="onMouseOut(this, 'images/Home.png')"></a>
-                <a href="posts.html" onclick="showContent('posts')">
-                    <img src="images/post.png" alt="Posts" onmouseover="onHover(this,'images/hover/post1.png')"
-                        onmouseout="onMouseOut(this, 'images/post.png')"></a>
-                <a href="thread.html" onclick="showContent('thread')">
-                    <img src="images/hashtag.png" alt="Threads" onmouseover="onHover(this, 'images/hover/hashtag1.png')"
-                        onmouseout="onMouseOut(this, 'images/hashtag.png')"></a>
-                <a href="notifications.html" onclick="showContent('notifications')">
-                    <img src="images/noti.png" alt="Notifications" onmouseover="onHover(this,'images/hover/noti1.png')"
-                        onmouseout="onMouseOut(this, 'images/noti.png')"></a>
-                <a href="profile.html" onclick="showContent('profile')"><img src="images/profile.png" alt="Profile"
-                        onmouseover="onHover(this,'images/hover/profile1.png')"
-                        onmouseout="onMouseOut(this, 'images/profile.png')"></a>
+                <div class="tooltip">
+                    <a href="home.html" onclick="showContent('home')">
+                        <img src="images/home.png" alt="Home" onmouseover="showTooltip(this, 'Home')"
+                            onmouseout="hideTooltip(this)">
+                        <span class="tooltiptext">Home</span>
+                    </a>
+                </div>
+
+                <div class="tooltip">
+                    <a href="postS.html" onclick="showContent('posts')">
+                        <img src="images/post.png" alt="Posts" onmouseover="showTooltip(this, 'Post')"
+                            onmouseout="hideTooltip(this)">
+                        <span class="tooltiptext">Post</span>
+                    </a>
+                </div>
+
+                <div class="tooltip">
+                    <a href="thread.html" onclick="showContent('thread')">
+                        <img src="images/hashtag.png" alt="thread" onmouseover="showTooltip(this, 'Thread')"
+                            onmouseout="hideTooltip(this)">
+                        <span class="tooltiptext">Thread</span>
+                    </a>
+                </div>
+
+                <div class="tooltip">
+                    <a href="notifications.html" onclick="showContent('notifications')">
+                        <img src="images/noti.png" alt="Notification" onmouseover="showTooltip(this, 'Notification')"
+                            onmouseout="hideTooltip(this)">
+                        <span class="tooltiptext">Notification</span>
+                    </a>
+                </div>
+
+                <div class="tooltip">
+                    <a href="profile.html" onclick="showContent('Profile')">
+                        <img src="images/profile.png" alt="Profile" onmouseover="showTooltip(this, 'Profile')"
+                            onmouseout="hideTooltip(this)">
+                        <span class="tooltiptext">Profile</span>
+                    </a>
+                </div>
             </div>
 
             <div id="content-home">
@@ -116,6 +140,28 @@
             function onMouseOut(x, src) {
                 x.src = src;
             }
+            function showTooltip(element, text) {
+                var tooltip = element.nextElementSibling; // Get the next sibling element, which is the tooltip
+                tooltip.innerHTML = text;
+                tooltip.style.visibility = 'visible';
+                tooltip.style.opacity = 1;
+            }
+
+            function hideTooltip(element) {
+                var tooltip = element.nextElementSibling; // Get the next sibling element, which is the tooltip
+                tooltip.style.visibility = 'hidden';
+                tooltip.style.opacity = 0;
+            }
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+                // Initially hide all tooltips
+                var tooltips = document.querySelectorAll('.tooltiptext');
+                tooltips.forEach(function (tooltip) {
+                    tooltip.style.visibility = 'hidden';
+                    tooltip.style.opacity = 0;
+                });
+            });
         </script>
 </body>
 

@@ -55,22 +55,47 @@
 
         <div class="right-side">
             <div class="navigation-bar">
-                <a href="home.html" onclick="showContent('home')">
-                    <img src="images/home.png" alt="Home" onmouseover="onHover(this,'images/hover/Home1.png')"
-                        onmouseout="onMouseOut(this, 'images/Home.png')"></a>
-                <a href="posts.html" onclick="showContent('posts')">
-                    <img src="images/post.png" alt="Posts" onmouseover="onHover(this,'images/hover/post1.png')"
-                        onmouseout="onMouseOut(this, 'images/post.png')"></a>
-                <a href="thread.html" onclick="showContent('thread')">
-                    <img src="images/hashtag.png" alt="Threads" onmouseover="onHover(this, 'images/hover/hashtag1.png')"
-                        onmouseout="onMouseOut(this, 'images/hashtag.png')"></a>
-                <a href="notifications.html" onclick="showContent('notifications')">
-                    <img src="images/noti.png" alt="Notifications" onmouseover="onHover(this,'images/hover/noti1.png')"
-                        onmouseout="onMouseOut(this, 'images/noti.png')"></a>
-                <a href="profile.html" onclick="showContent('profile')"><img src="images/profile.png" alt="Profile"
-                        onmouseover="onHover(this,'images/hover/profile1.png')"
-                        onmouseout="onMouseOut(this, 'images/profile.png')"></a>
+                <div class="tooltip">
+                    <a href="home.html" onclick="showContent('home')">
+                        <img src="images/home.png" alt="Home" onmouseover="showTooltip(this, 'Home')"
+                            onmouseout="hideTooltip(this)">
+                        <span class="tooltiptext">Home</span>
+                    </a>
+                </div>
+
+                <div class="tooltip">
+                    <a href="postS.html" onclick="showContent('posts')">
+                        <img src="images/post.png" alt="Posts" onmouseover="showTooltip(this, 'Post')"
+                            onmouseout="hideTooltip(this)">
+                        <span class="tooltiptext">Post</span>
+                    </a>
+                </div>
+
+                <div class="tooltip">
+                    <a href="thread.html" onclick="showContent('thread')">
+                        <img src="images/hashtag.png" alt="thread" onmouseover="showTooltip(this, 'Thread')"
+                            onmouseout="hideTooltip(this)">
+                        <span class="tooltiptext">Thread</span>
+                    </a>
+                </div>
+
+                <div class="tooltip">
+                    <a href="notifications.html" onclick="showContent('notifications')">
+                        <img src="images/noti.png" alt="Notification" onmouseover="showTooltip(this, 'Notification')"
+                            onmouseout="hideTooltip(this)">
+                        <span class="tooltiptext">Notification</span>
+                    </a>
+                </div>
+
+                <div class="tooltip">
+                    <a href="profile.html" onclick="showContent('Profile')">
+                        <img src="images/profile.png" alt="Profile" onmouseover="showTooltip(this, 'Profile')"
+                            onmouseout="hideTooltip(this)">
+                        <span class="tooltiptext">Profile</span>
+                    </a>
+                </div>
             </div>
+
 
             <div id="content-home">
                 <a href="home.html"></a>
@@ -94,16 +119,17 @@
                         <button class="dropbtn">Choose the Topics<span class="arrow-icon">&#x25BE;</span></button>
                         <div class="dropdown-content">
                             <!-- todo add html files for reference-->
-                            <a href="home.html" onclick="showcontent('Academics')">Academics</a>
-                            <a href="#" onclick="showcontent('Internships')">Internships</a>
-                            <a href="#" onclick="showcontent('Career')">Career</a>
-                            <a href="#" onclick="showcontent('xyz')">XYZ</a>
+                            <a onclick="showcontent('Academics')">Academics</a>
+                            <a  onclick="showcontent('Internships')">Internships</a>
+                            <a  onclick="showcontent('Career')">Career</a>
+                            <a  onclick="showcontent('xyz')">XYZ</a>
                         </div>
                     </div>
                     <div class="draft">Draft</div>
                 </div>
                 <div id="inner-bg2">
-                    <textarea rows="20" placeholder="What's on your mind?"></textarea>
+                    <textarea rows="1" placeholder="Title"></textarea>
+                    <textarea rows="12" placeholder="What's on your mind?"></textarea>
 
                     <div class="line2">
                         <div class="line3">
@@ -163,7 +189,6 @@
 
             // Show the selected content section
             document.getElementById('content-' + contentId).style.display = 'block';
-            document.getElementById('content-' + contentId).attribute = 'contentId';
         }
         function onHover(x, src) {
             x.src = src;
@@ -171,6 +196,31 @@
         function onMouseOut(x, src) {
             x.src = src;
         }
+        function showTooltip(element, text) {
+            var tooltip = element.nextElementSibling; // Get the next sibling element, which is the tooltip
+            tooltip.innerHTML = text;
+            tooltip.style.visibility = 'visible';
+            tooltip.style.opacity = 1;
+        }
+
+        function hideTooltip(element) {
+            var tooltip = element.nextElementSibling; // Get the next sibling element, which is the tooltip
+            tooltip.style.visibility = 'hidden';
+            tooltip.style.opacity = 0;
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // Initially hide all tooltips
+            var tooltips = document.querySelectorAll('.tooltiptext');
+            tooltips.forEach(function (tooltip) {
+                tooltip.style.visibility = 'hidden';
+                tooltip.style.opacity = 0;
+            });
+        });
+
+
+
     </script>
 </body>
 
