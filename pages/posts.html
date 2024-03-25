@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home Page</title>
+    <title>Create Post</title>
     <link rel="stylesheet" href="design.css" />
   </head>
   <!--DATE  || TIME | DYNAMIC UPDATION JS LINK-->
@@ -125,7 +125,10 @@
             <div class="draft">Draft</div>
           </div>
           <div id="inner-bg2">
-            <textarea rows="22" placeholder="What's on your mind?"></textarea>
+            <textarea
+              id="postContent"
+              rows="22"
+              placeholder="What's on your mind?"></textarea>
 
             <div class="line2">
               <div class="line3">
@@ -214,6 +217,61 @@
       function onMouseOut(x, src) {
         x.src = src;
       }
+
+      async function postContent() {
+        try {
+          const textarea = document.querySelector("textarea");
+          const postTitle = "Title"; // Assuming there's a separate input for post title
+          const postContent = textarea.value;
+
+          // Get the user's email from session cookies
+          const userEmail = decodeURIComponent(getCookie("userEmail")); // Decode the email
+
+          // Generate timestamp for when the post was sent
+          const timestamp = new Date().toISOString();
+
+          const postData = {
+            title: postTitle,
+            content: postContent,
+            timestamp: timestamp,
+            userEmail: userEmail,
+          };
+
+          const response = await fetch("/savePost", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(postData),
+          });
+
+          if (response.ok) {
+            console.log("Post saved successfully.");
+            // Optionally, show a success message to the user
+          } else {
+            console.error("Failed to save post.");
+            // Optionally, show an error message to the user
+          }
+        } catch (error) {
+          console.error("Error posting content:", error);
+        }
+      }
+
+      // Function to get value from cookie by name
+      function getCookie(name) {
+        const cookies = document.cookie.split("; ");
+        for (const cookie of cookies) {
+          const [cookieName, cookieValue] = cookie.split("=");
+          if (cookieName === name) {
+            return cookieValue;
+          }
+        }
+        return "";
+      }
+
+      // Add an event listener to the Post button
+      const postButton = document.querySelector(".post-button");
+      postButton.addEventListener("click", postContent);
 
       async function logout() {
         try {

@@ -451,7 +451,7 @@ textarea {
 
 @media only screen and (max-width: 600px) {
   .left-side {
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
@@ -487,4 +487,25 @@ textarea {
 
 .search-box button:hover {
   background-color: #d32000;
+}
+
+.post-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff; /* White color */
+  margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
+  .footer-section {
+    visibility: hidden;
+  }
+
+  .topics {
+    display: flex;
+    flex-direction: row;
+  }
 }
