@@ -1,0 +1,77 @@
+/* General Styles */
+html,
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding-bottom: 10px;
+}
+
+body {
+  background: linear-gradient(
+    151deg,
+    rgba(0, 0, 0, 1) 30%,
+    rgba(253, 29, 29, 1) 100%
+  );
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Form Container Styles */
+.form-container {
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: linear-gradient(
+    151deg,
+    rgb(37, 37, 37) 50%,
+    rgb(200, 68, 68) 100%
+  );;
+}
+
+.form-container span {
+  display: block;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.form-container input[type="email"],
+.form-container input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.form-container button {
+  width: 107%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+}
+
+h1, span {
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+}

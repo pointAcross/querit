@@ -1,7 +1,11 @@
-body {
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+body {
   font-family: Arial, sans-serif;
+
 }
 
 .container {
@@ -18,10 +22,12 @@ p {
 }
 
 #inner-bg {
-  margin: 20px;
-  /* display: flex; */
+  margin:20px;
+  margin-top: 0px;;
+  padding-top:20px ;
+  padding-bottom:20px;
   background-color: black;
-  border-radius: 18px;
+  border-radius: 14px;
 }
 
 .left-side {
@@ -29,7 +35,7 @@ p {
   flex-direction: column;
   justify-content: space-between;
   background-color: #282828;
-  padding: 20px;
+  padding:20px;
 }
 
 .right-side {
@@ -39,20 +45,38 @@ p {
 }
 
 .search-box {
+  flex:1;
   width: 100%;
   padding: 10px;
   box-sizing: border-box;
   display: flex;
   flex-wrap: nowrap;
+  border-radius:12px;
+  /* margin-bottom: 20px; */
 }
 
-.navigation-bar {
-  margin-top: 0px;
+.search-box button {
+  border: none;
+  outline: none;
+  background-color:#ECE4D4;
+  color: black;
+  padding: 5px 10px;
+  border-radius: 6px;
+  margin-left: 10px; /* Add margin for spacing */
+  cursor: pointer;
+}
+.navigation-bar {  
+  position:sticky;  
+  top:0; 
+  width: 100%;     
   display: flex;
   justify-content: space-around;
+  align-items: center;
   background-color: #282828;
-  color: #ece4d4;
-  padding: 10px;
+  color: #ECE4D4;
+  padding:12px 0px;
+  z-index: 1;
+  overflow:hidden;
 }
 
 .navigation-bar a {
@@ -60,8 +84,8 @@ p {
 }
 
 .navigation-bar img {
-  width: 28px;
-  height: 28px;
+  width:28px;
+  height:28px;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -70,19 +94,77 @@ p {
 }
 
 .navigation-bar img[alt] {
-  color: #ece4d4;
+  color: #ECE4D4;
   cursor: pointer;
-  transition: color 0.3s, background-color 0.3s;
+  transition: color 0.2s, background-color 0.3s;
   font-weight: bold;
+      
 }
 
 .navigation-bar img[alt]:hover {
   text-decoration: none;
-  color: black;
-  background-color: #e7dfd0;
+  color:black;    
   font-weight: bold;
 }
 
+/* tooltip-decoration and position  */
+.tooltip {
+  position: relative;
+  display: flex;
+  margin: 0 8px;
+  
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 4px 8px;
+  position: absolute;
+  bottom: -20px; /* Position the tooltip below the icon */
+  left: 50%; /* Center the tooltip horizontally */
+  transform: translateX(-50%);
+  z-index: 1;
+  font-size: 14px;
+  opacity: 0; /* Make the tooltip initially hidden */
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Tooltip text visible on hover */  
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity:1;
+}
+
+
+/* Responsive adjustments */
+@media only screen and (max-width: 768px) {
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 6px 8px;
+    position: absolute;
+    font-size:12px;
+    bottom: -20px; /* Position the tooltip below the icon/button */
+    left: 50%; /* Center the tooltip horizontally */
+    transform: translateX(-50%);
+    z-index: 1;
+    opacity: 0; /* Make the tooltip initially hidden */
+    transition: opacity 0.3s, transform 0.3s;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .tooltip .tooltiptext {
+    width: 66px; /* Further adjust tooltip width for even smaller screens */
+    padding: 6px 0px;
+    left: 50%; /* Center the tooltip horizontally */
+  }
+}
 #content-home {
   display: none;
 }
@@ -105,7 +187,7 @@ p {
 
 #headings {
   text-align: center;
-  color: #ece4d4;
+  color: #ECE4D4;
   font-weight: bold;
 }
 
@@ -123,6 +205,7 @@ p {
   flex-direction: row;
   width: 90%;
   max-width: 300px;
+
 }
 
 #box-text-l {
@@ -136,13 +219,14 @@ p {
   font-weight: bold;
   text-align: right;
   flex-shrink: 0;
-  width: auto;
+  
 }
 
 :root {
   --footer-inline-spacing: 50px;
   /* Default spacing between inline elements */
 }
+
 
 .footer-container {
   width: 100%;
@@ -151,7 +235,7 @@ p {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 8px;
+  gap:8px;
 }
 
 .footer-section {
@@ -161,15 +245,16 @@ p {
   justify-content: space-between;
 }
 
+
 .logout-btn {
   font-size: 16px;
   background-color: #f62500;
   display: flex;
   transition: background-color 0.3s;
   border: 2px solid black;
-  padding: 10px 52px;
+  padding: 10px 28px;
   cursor: pointer;
-  border-radius: 14px;
+  border-radius: 12px;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
@@ -185,7 +270,7 @@ p {
 }
 
 .right-inner-bg {
-  background-color: 11eE1E;
+  background-color: 1E1E1E;
   color: white;
   padding: 20px;
   border-radius: 14px;
@@ -193,14 +278,20 @@ p {
   flex-direction: column;
   display: flex;
   flex-wrap: wrap;
+
 }
 
 /*post page right side*/
+
+.post_h{
+ padding-top:10px;
+ font-weight: bolder;
+}
 .dropdown {
   display: flex;
   flex-direction: column;
-  /* position: fixed; */
   margin-bottom: 30px;
+
 }
 
 .dropbtn {
@@ -260,31 +351,27 @@ p {
 
 @keyframes fadeIn {
   from {
-    opacity: 0;
+      opacity: 0;
   }
 
   to {
-    opacity: 1;
+      opacity: 1;
   }
 }
 
-.arrow-icon {
-  margin-left: auto;
-  font-size: 20px;
-  color: #fff;
-}
+
 
 @media screen and (max-width: 600px) {
   .dropbtn {
-    font-size: 10px;
-    padding: 6px 12px;
-    width: auto;
+      font-size: 10px;
+      padding: 6px 12px;
+      width: auto;
   }
 
   .dropdown-content {
-    top: calc(100% + 4px);
-    min-width: 160px;
-    /* Adjusted for smaller screens */
+      top: calc(100% + 4px);
+      min-width: 160px;
+      /* Adjusted for smaller screens */
   }
 }
 
@@ -296,25 +383,30 @@ p {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+
 }
 
 #inner-bg2 {
-  padding: 16px;
+  padding:25px;
   display: flex;
   background-color: #282828;
   border-radius: 12px;
   flex-direction: column;
   border: 2px solid black;
-  align-items: center;
-  gap: 16px;
-  color: white;
+  align-items: center;   
+  color:white;
+
 }
 
 #inner-bg2 textarea {
+  margin-bottom: 20px;
   width: 100%;
   background-color: #282828;
+  font-size: 20px;;
   border: none;
   color: white;
+ 
 }
 
 #inner-bg2 textarea::placeholder {
@@ -336,6 +428,7 @@ p {
 }
 
 .post-button {
+  margin-top: 10px;
   font-size: 16px;
   background-color: #f62500;
   display: flex;
@@ -352,29 +445,63 @@ p {
 }
 
 h1 {
-  color: #ece4d4;
+  color: #ECE4D4;    
   padding: 5px;
 }
 
 @media (max-width: 600px) {
   h1 {
-    font-size: 1.5em;
+      font-size: 1.5em;
   }
 }
+
+
+/* notification page  */
+.noti_head{   
+  padding: 0px 10px px 16px;
+  font-weight:bolder; 
+  
+}
+
+#inner-bg_prof{
+  margin:20px;
+  padding:25px;
+  display: flex;
+  background-color: #282828;
+  border-radius: 12px;
+  flex-direction: column;
+  border: 2px solid black;
+  align-items: center;   
+  color:white;
+
+}
+
+
+/* profile page */
+.profile_head{
+  padding-top:30px;
+  padding-left:40px;
+  padding-bottom:0px;
+  font-weight: bolder;
+}
+
 /* edit-page */
 .con {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh; /* Make container take up the full viewport height */
+  padding-top: 0px;
+  height: 80vh; /* Make container take up the full viewport height */
 }
 
-.edit_h1 {
+.edit_h1{
   align-items: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  font-weight: bolder;
+  padding-top:0px;
+  padding-bottom: 20px;
 }
 #inner-bg3 {
   padding: 2vw;
@@ -382,20 +509,22 @@ h1 {
   flex-wrap: wrap;
   flex-direction: column;
   background-color: #282828;
-  border-radius: 14px;
+  border-radius: 14px;  
   border: 2px solid black;
-  color: white;
-  width: 70%;
-  max-width: 400px;
+  color:white;
+  width: 60%; 
+  max-width: 400px,
 }
 
 label {
-  margin-bottom: 6px;
+  margin-bottom:4px;
   font-weight: bold;
-  color: white;
+  color:white;
+
 }
 #inner-bg3 .edit_input::placeholder {
   color: white;
+ 
 }
 
 .edit_input {
@@ -403,13 +532,13 @@ label {
   margin-bottom: 12px;
   border: 1px solid #ccc;
   background-color: #282828;
-  color: white;
+  color:white;
   border-radius: 8px;
   width: calc(100% - 18px);
 }
 
 textarea {
-  resize: vertical;
+  resize: vertical;     
 }
 
 .button-container {
@@ -420,9 +549,9 @@ textarea {
 
 .update-button {
   margin-top: 8px;
-  background-color: green;
+  background-color:green ;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 20px 8px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -430,82 +559,7 @@ textarea {
   font-size: 16px;
 }
 
-.cancel-button {
-  margin-top: 8px;
-  background-color: green;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 150px;
-  font-size: 16px;
-  margin-left: 15px;
-}
-
-.update-button:hover,
-.cancel-button:hover {
-  font-weight: bold;
-  color: black;
-}
-
-@media only screen and (max-width: 600px) {
-  .left-side {
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-  }
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  margin-bottom: 20px; /* Adjust spacing between search box and other elements */
-}
-
-.search-box input[type="text"] {
-  flex-grow: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 10px; /* Adjust spacing between input and button */
-}
-
-.search-box button {
-  background-color: #f62500;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.search-box button:hover {
-  background-color: #d32000;
-}
-
-.post-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #ffffff; /* White color */
-  margin-bottom: 10px;
-}
-
-@media only screen and (max-width: 600px) {
-  .container {
-    flex-direction: column;
-  }
-  .footer-section {
-    visibility: hidden;
-  }
-
-  .topics {
-    display: flex;
-    flex-direction: row;
-  }
+.update-button:hover {
+  font-weight:bold;
+  color:black;
 }
