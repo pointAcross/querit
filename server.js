@@ -16,7 +16,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB connection configuration
-const mongoURI = "mongodb://localhost:27017"; // Change this to your MongoDB URI
+const mongoURI =
+  "mongodb"; // Change this to your MongoDB URI
 const dbName = "querit"; // Change this to your database name
 const client = new MongoClient(mongoURI);
 
@@ -33,8 +34,8 @@ app.use(
   session({
     secret: secretKey,
     resave: false,
-    saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: mongoURI }),
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: mongoURI, dbName: "querit" }),
     cookie: { maxAge: 60 * 60 * 24 * 1000 }, // 1 day
   })
 );
@@ -89,29 +90,38 @@ async function insertUserToDatabase(user) {
 
 // Route handler for user registration
 app.post("/register", async (req, res) => {
-  const { name, email, password, phone, dob } = req.body;
+  const { name, email, password } = req.body;
 
   console.log(`Received registration request for email: ${email}`); // Debugging log
 
   // Simple validation for required fields
-  if (!name || !email || !password || !phone || !dob) {
+  if (!name || !email || !password) {
     console.log("Missing required fields."); // Debugging log
     return res.status(400).json({
-      message: "All fields (name, email, password, phone, dob) are required.",
+      message: "All fields (name, email, password) are required.",
     });
   }
 
   try {
+    // Access the MongoDB collection from the database client
+    const db = client.db(dbName);
+    const collection = db.collection("users");
+
+    // Check if the user already exists
+    const existingUser = await collection.findOne({ email });
+    if (existingUser) {
+      console.log("User already exists."); // Debugging log
+      return res.status(400).json({ message: "User already exists." });
+    }
+
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
 
     // Insert user into the database with hashed password
-    await insertUserToDatabase({
+    await collection.insertOne({
       name,
       email,
       password: hashedPassword,
-      phone,
-      dob,
     });
 
     console.log("User registration successful."); // Debugging log
@@ -136,7 +146,7 @@ app.post("/login", async (req, res) => {
   }
 
   // Verify CAPTCHA response
-  if (parseInt(captchaInput) !== parseInt(captchaResult)) {
+  if (captchaInput !== captchaResult) {
     console.log("CAPTCHA verification failed."); // Debugging log
     return res.status(401).json({ message: "CAPTCHA verification failed." });
   }
@@ -163,7 +173,7 @@ app.post("/login", async (req, res) => {
 
         res.status(200).json({
           message: "Login successful.",
-          redirect: "http://localhost:3000/home.html",
+          redirect: "/home.html",
         });
       } else {
         console.log("Login failed. Incorrect email or password."); // Debugging log
@@ -273,6 +283,84 @@ app.get("/getUserName", async (req, res) => {
 
   // Send the user's name in the response
   res.status(200).json({ name: user.name });
+});
+
+// Route handler for saving a post to the database
+app.post("/savePost", async (req, res) => {
+  try {
+    // Extract post data from the request body
+    const { title, content, timestamp, userEmail } = req.body;
+
+    // Ensure all required fields are present
+    if (!title || !content || !timestamp || !userEmail) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+    // Insert the post data into the database
+    const db = client.db(dbName);
+    const collection = db.collection("posts");
+    await collection.insertOne({
+      title: title,
+      content: content,
+      timestamp: timestamp,
+      userEmail: userEmail,
+    });
+
+    console.log("Post saved successfully."); // Debugging log
+    res.status(200).json({ message: "Post saved successfully." });
+  } catch (error) {
+    console.error("Error saving post:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// Route handler for fetching posts created by the logged-in user
+app.get("/getUserPosts", async (req, res) => {
+  try {
+    // Extract the email of the logged-in user from the session
+    const userEmail = req.session.email;
+
+    // Retrieve posts from the database based on the user's email
+    const db = client.db(dbName);
+    const collection = db.collection("posts");
+    const userPosts = await collection.find({ userEmail: userEmail }).toArray();
+
+    // Send the user's posts in the response
+    res.status(200).json({ userPosts });
+  } catch (error) {
+    console.error("Error fetching user posts:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// Route handler for resetting user password
+app.post("/resetPassword", async (req, res) => {
+  const { email, newPassword } = req.body;
+
+  try {
+    // Update user password in the database
+    const db = client.db(dbName);
+    const collection = db.collection("users");
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's password
+    await collection.updateOne(
+      { email: email },
+      { $set: { password: hashedPassword } }
+    );
+
+    // Update session with new email and login status
+    req.session.email = email;
+    req.session.isLoggedIn = true;
+
+    // Send success response to the client
+    res.status(200).json({ success: true, email: email });
+  } catch (error) {
+    console.error("Error resetting password:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 });
 
 // Serve static files
