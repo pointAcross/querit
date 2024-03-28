@@ -87,6 +87,7 @@ function submitForm(userData) {
       console.log(data);
       alert("Registration successful!");
       document.getElementById("registrationForm").reset(); // Clear form fields
+      window.location.href = "/login.html";
     })
     .catch((error) => {
       // Handle errors

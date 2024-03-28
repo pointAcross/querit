@@ -1,152 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="design.css" />
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page </title>
-    <link rel="stylesheet" href="design.css">
-</head>
-
-<body>
+  <body>
     <div class="container">
-        <div class="left-side">
-            <div>
-                <div class="search-box">
-                    <input type="text" id="search" name="search" placeholder="Search">
-                    <button type="submit">Search</button>
-                </div>
-                <div id="headings">
-                    <h1>Topics</h1>
-                </div>
-                <div class="box">
-                    <p id="box-text-l">Academics</p>
-                    <p id="box-text-r">Open</p>
-                </div>
-                <div class="box">
-                    <p id="box-text-l">Internships</p>
-                    <p id="box-text-r">Open</p>
-                </div>
-                <div class="box">
-                    <p id="box-text-l">Career</p>
-                    <p id="box-text-r">Open</p>
-                </div>
-                <div class="box">
-                    <p id="box-text-l">xyz</p>
-                    <p id="box-text-r">Open</p>
-                </div>
-            </div>
-            <div class="footer-container">
-                <div>
-                    <p>About</p>
+      <div class="left-side">
+        <div>
+          <div class="search-box">
+            <input type="text" id="search" name="search" placeholder="Search" />
+            <button type="submit">Search</button>
+          </div>
+          <div id="headings">
+            <h1>Topics</h1>
+          </div>
+          <div class="box">
+            <p id="box-text-l">Academics</p>
+            <p id="box-text-r">Open</p>
+          </div>
+          <div class="box">
+            <p id="box-text-l">Internships</p>
+            <p id="box-text-r">Open</p>
+          </div>
+          <div class="box">
+            <p id="box-text-l">Career</p>
+            <p id="box-text-r">Open</p>
+          </div>
+          <div class="box">
+            <p id="box-text-l">xyz</p>
+            <p id="box-text-r">Open</p>
+          </div>
+        </div>
+        <div class="footer-container">
+          <div>
+            <p>About</p>
+          </div>
 
-                </div>
+          <div>
+            <button class="logout-btn">Logout</button>
+          </div>
 
-                <div>
-                    <button class="logout-btn">Logout</button>
-                </div>
+          <div class="footer-section">
+            <p>Terms of Service</p>
+            <p>Privacy</p>
+          </div>
+        </div>
+      </div>
 
-                <div class="footer-section">
-                    <p>Terms of Service</p>
-                    <p>Privacy</p>
-                </div>
-            </div>
+      <div class="right-side">
+        <div class="navigation-bar">
+          <a href="home.html" onclick="showContent('home')">
+            <img
+              src="images/home.png"
+              alt="Home"
+              onmouseover="onHover(this,'images/hover/Home1.png')"
+              onmouseout="onMouseOut(this, 'images/Home.png')"
+          /></a>
+          <a href="posts.html" onclick="showContent('posts')">
+            <img
+              src="images/post.png"
+              alt="Posts"
+              onmouseover="onHover(this,'images/hover/post1.png')"
+              onmouseout="onMouseOut(this, 'images/post.png')"
+          /></a>
+          <a href="thread.html" onclick="showContent('thread')">
+            <img
+              src="images/hashtag.png"
+              alt="Threads"
+              onmouseover="onHover(this, 'images/hover/hashtag1.png')"
+              onmouseout="onMouseOut(this, 'images/hashtag.png')"
+          /></a>
+          <a href="notifications.html" onclick="showContent('notifications')">
+            <img
+              src="images/noti.png"
+              alt="Notifications"
+              onmouseover="onHover(this,'images/hover/noti1.png')"
+              onmouseout="onMouseOut(this, 'images/noti.png')"
+          /></a>
+          <a href="profile.html" onclick="showContent('profile')"
+            ><img
+              src="images/profile.png"
+              alt="Profile"
+              onmouseover="onHover(this,'images/hover/profile1.png')"
+              onmouseout="onMouseOut(this, 'images/profile.png')"
+          /></a>
         </div>
 
-        <div class="right-side">
-            <div class="navigation-bar">
-                <a href="home.html" onclick="showContent('home')">
-                    <img src="images/home.png" alt="Home" onmouseover="onHover(this,'images/hover/Home1.png')"
-                        onmouseout="onMouseOut(this, 'images/Home.png')"></a>
-                <a href="posts.html" onclick="showContent('posts')">
-                    <img src="images/post.png" alt="Posts" onmouseover="onHover(this,'images/hover/post1.png')"
-                        onmouseout="onMouseOut(this, 'images/post.png')"></a>
-                <a href="thread.html" onclick="showContent('thread')">
-                    <img src="images/hashtag.png" alt="Threads" onmouseover="onHover(this, 'images/hover/hashtag1.png')"
-                        onmouseout="onMouseOut(this, 'images/hashtag.png')"></a>
-                <a href="notifications.html" onclick="showContent('notifications')">
-                    <img src="images/noti.png" alt="Notifications" onmouseover="onHover(this,'images/hover/noti1.png')"
-                        onmouseout="onMouseOut(this, 'images/noti.png')"></a>
-                <a href="profile.html" onclick="showContent('profile')"><img src="images/profile.png" alt="Profile"
-                        onmouseover="onHover(this,'images/hover/profile1.png')"
-                        onmouseout="onMouseOut(this, 'images/profile.png')"></a>
-            </div>
-
-            <div id="content-home">
-                <a href="home.html"></a>
-            </div>
-            <div id="content-posts">
-                <a href="posts.html"></a>
-            </div>
-            <div id="content-thread">
-                <a href="thread.html"></a>
-            </div>
-            <div id="content-notifications">
-                <a href="notifications.html"></a>
-            </div>
-            <div id="content-profile">
-                <a href="profile.html"></a>
-            </div>
-            <div id="inner-bg">
-                <h1 class="edit_h1">Edit Profile</h1>
-                <form>
-                 
-                    <div class="con">
-                       
-                        <div id="inner-bg3">
-                            <label for="name">Name</label>
-                            <input type="text" class="edit_input" placeholder="Enter your name">
-
-                            <label for="username">Username</label>
-                            <input type="text" class="edit_input" placeholder="Enter your username">
-
-                            <label for="location">Location</label>
-                            <input type="text" class="edit_input" placeholder="Enter your location">
-
-                            <label for="url">URL</label>
-                            <input type="text" class="edit_input" placeholder="Enter your URL">
-
-                            <label for="company">Company</label>
-                            <input type="text" class="edit_input" placeholder="Enter your company">
-
-                            <label for="bio">Bio</label>
-                            <textarea rows="4" placeholder="Write a short bio about yourself"
-                                class="edit_input"></textarea>
-
-                            <div class="button-container">
-                                <input type="button" value="Update Profile" class="update-button">
-                            </div>
-
-
-                        </div>
-                    </div>
-
-
-                </form>
-
-
-
-            </div>
+        <div id="content-home">
+          <a href="home.html"></a>
         </div>
-        <script>
-            function showContent(contentId) {
-                // Hide all content sections
-                document.getElementById('content-home').style.display = 'none';
-                document.getElementById('content-posts').style.display = 'none';
-                document.getElementById('content-thread').style.display = 'none';
-                document.getElementById('content-notifications').style.display = 'none';
-                document.getElementById('content-profile').style.display = 'none';
+        <div id="content-posts">
+          <a href="posts.html"></a>
+        </div>
+        <div id="content-thread">
+          <a href="thread.html"></a>
+        </div>
+        <div id="content-notifications">
+          <a href="notifications.html"></a>
+        </div>
+        <div id="content-profile">
+          <a href="profile.html"></a>
+        </div>
+        <div id="inner-bg">
+          <h1 class="edit_h1">Edit Profile</h1>
+          <form id="profileForm">
+            <div class="con">
+              <div id="inner-bg3">
+                <label for="uName">Name</label>
+                <input
+                  type="text"
+                  class="edit_input"
+                  id="uName"
+                  placeholder="Enter your name" />
 
-                // Show the selected content section
-                document.getElementById('content-' + contentId).style.display = 'block';
-            }
-            function onHover(x, src) {
-                x.src = src;
-            }
-            function onMouseOut(x, src) {
-                x.src = src;
-            }
-        </script>
-</body>
+                <label for="uDOB">Date of Birth</label>
+                <input type="date" class="edit_input" id="uDOB" />
 
+                <label for="uEmail">Email</label>
+                <input
+                  type="email"
+                  class="edit_input"
+                  id="uEmail"
+                  placeholder="Enter your email" />
+
+                <label for="uPass">Password</label>
+                <input
+                  type="password"
+                  class="edit_input"
+                  id="uPass"
+                  placeholder="Enter your password" />
+
+                <label for="uPhone">Phone</label>
+                <input
+                  type="tel"
+                  class="edit_input"
+                  id="uPhone"
+                  placeholder="Enter your phone number" />
+
+                <div class="button-container">
+                  <input
+                    type="button"
+                    value="Update Profile"
+                    class="update-button"
+                    onclick="updateProfile()" />
+
+                  <input
+                    type="button"
+                    value="Cancel"
+                    class="cancel-button"
+                    onclick="onCancel()" />
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="edit_profile.js"></script>
+  </body>
 </html>
