@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 // MongoDB connection configuration
 const mongoURI =
-  "mongodb"; // Change this to your MongoDB URI
+  "mongodb+srv://Adarsh:Adarsh@querit.0c0rqzg.mongodb.net/?retryWrites=true&w=majority&appName=Querit"; // Change this to your MongoDB URI
 const dbName = "querit"; // Change this to your database name
 const client = new MongoClient(mongoURI);
 
@@ -333,33 +333,47 @@ app.get("/getUserPosts", async (req, res) => {
   }
 });
 
-// Route handler for resetting user password
+// Route handler for password reset
 app.post("/resetPassword", async (req, res) => {
-  const { email, newPassword } = req.body;
+  const { email, newPassword, confirmPassword } = req.body;
+
+  // Simple validation for required fields
+  if (!email || !newPassword || !confirmPassword) {
+    return res.status(400).json({
+      message:
+        "All fields (email, new password, confirm password) are required.",
+    });
+  }
+
+  // Check if passwords match
+  if (newPassword !== confirmPassword) {
+    return res.status(400).json({ message: "Passwords do not match." });
+  }
 
   try {
-    // Update user password in the database
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 is the salt rounds
+
+    // Update the user's password in the database
     const db = client.db(dbName);
     const collection = db.collection("users");
-
-    // Hash the new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-    // Update the user's password
-    await collection.updateOne(
+    const result = await collection.updateOne(
       { email: email },
       { $set: { password: hashedPassword } }
     );
 
-    // Update session with new email and login status
-    req.session.email = email;
-    req.session.isLoggedIn = true;
-
-    // Send success response to the client
-    res.status(200).json({ success: true, email: email });
+    if (result.modifiedCount === 1) {
+      // Password updated successfully
+      res.redirect("/login.html");
+    } else {
+      // User not found or password not updated
+      res
+        .status(404)
+        .json({ message: "User not found or password not updated." });
+    }
   } catch (error) {
     console.error("Error resetting password:", error);
-    res.status(500).json({ success: false, message: "Server error" });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 
