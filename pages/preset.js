@@ -1,43 +1,35 @@
-function validateReset() {
-  const email = document.getElementById("email_reset").value;
-  const newPassword = document.getElementById("new_password").value;
-  const confirmNewPassword = document.getElementById("confirm_password").value;
-
-  // Client-side validation for email and password fields
-  if (!email || !newPassword || !confirmNewPassword) {
-    alert("All fields are required.");
-    return;
-  }
-
-  if (newPassword !== confirmNewPassword) {
-    alert("Passwords do not match.");
-    return;
-  }
-
-  // Send AJAX request to server for password reset
-  const resetData = { email: email, newPassword: newPassword };
-  fetch("/resetPassword", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(resetData),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        alert(
-          "Password reset successful. Please log in with your new password."
-        );
-        window.location.href = "/login.html";
-      } else {
-        alert("Password reset failed: " + data.message);
-      }
-    })
-    .catch((error) => console.error("Error:", error));
-}
-
 document
-  .getElementById("resetForm")
+  .getElementById("reset-password-form")
   .addEventListener("submit", function (event) {
     event.preventDefault();
-    validateReset();
+
+    const email = document.getElementById("email").value;
+    const newPassword = document.getElementById("new-password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+
+    if (newPassword !== confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    fetch("/resetPassword", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, newPassword }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          alert("Password reset successful!");
+          window.location.href = "/login.html";
+        } else {
+          alert("Error resetting password: " + data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Error resetting password.");
+      });
   });

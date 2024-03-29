@@ -14,8 +14,11 @@ function generateCaptcha(captchaId) {
   }
 }
 
-// Function to handle sign-in
-function signIn() {
+// Function to handle sign-in form submission
+function signIn(event) {
+  // Prevent the default form submission behavior
+  event.preventDefault();
+
   // Retrieve input values
   var email = document.getElementById("email_in").value;
   var password = document.getElementById("password_in").value;
@@ -55,6 +58,7 @@ function signIn() {
   })
     .then((response) => response.json())
     .then((data) => {
+      // Display error message dynamically
       alert(data.message);
       if (data.redirect) {
         window.location.href = data.redirect;
@@ -63,8 +67,11 @@ function signIn() {
     .catch((error) => console.error("Error:", error));
 }
 
-// Function to handle sign-up
-function signUp() {
+// Function to handle sign-up form submission
+function signUp(event) {
+  // Prevent the default form submission behavior
+  event.preventDefault();
+
   // Retrieve input values
   var name = document.getElementById("name").value;
   var email = document.getElementById("email").value;
@@ -91,7 +98,7 @@ function signUp() {
     return;
   }
 
-  // If all validations pass, make fetch request to server
+  /// If all validations pass, make fetch request to server
   fetch("/register", {
     method: "POST",
     headers: {
@@ -104,7 +111,13 @@ function signUp() {
     }),
   })
     .then((response) => response.json())
-    .then((data) => alert(data.message))
+    .then((data) => {
+      alert(data.message);
+      // Reload the page if registration is successful
+      if (data.message === "User registration successful.") {
+        location.reload();
+      }
+    })
     .catch((error) => console.error("Error:", error));
 }
 
@@ -129,3 +142,8 @@ signUpButton.addEventListener("click", function (e) {
   e.preventDefault();
   container.classList.add("right-panel-active");
 });
+
+// Ensure that only one event listener is attached to the form submission
+document.getElementById("loginForm").addEventListener("submit", signIn);
+// Ensure that only one event listener is attached to the sign-up form submission
+document.getElementById("signUpForm").addEventListener("submit", signUp);
