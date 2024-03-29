@@ -333,46 +333,62 @@ app.get("/getUserPosts", async (req, res) => {
   }
 });
 
-// Route handler for password reset
+// Route handler for resetting user password
 app.post("/resetPassword", async (req, res) => {
-  const { email, newPassword, confirmPassword } = req.body;
+  const { email, newPassword } = req.body;
 
-  // Simple validation for required fields
-  if (!email || !newPassword || !confirmPassword) {
-    return res.status(400).json({
-      message:
-        "All fields (email, new password, confirm password) are required.",
-    });
-  }
-
-  // Check if passwords match
-  if (newPassword !== confirmPassword) {
-    return res.status(400).json({ message: "Passwords do not match." });
+  // Validate request body
+  if (!email || !newPassword) {
+    return res
+      .status(400)
+      .json({
+        success: false,
+        message: "Email and new password are required.",
+      });
   }
 
   try {
-    // Hash the new password
-    const hashedPassword = await bcrypt.hash(newPassword, 10); // 10 is the salt rounds
-
-    // Update the user's password in the database
     const db = client.db(dbName);
     const collection = db.collection("users");
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's password
     const result = await collection.updateOne(
       { email: email },
       { $set: { password: hashedPassword } }
     );
 
-    if (result.modifiedCount === 1) {
-      // Password updated successfully
-      res.redirect("/login.html");
-    } else {
-      // User not found or password not updated
-      res
+    // Check if the update was successful
+    if (result.modifiedCount === 0) {
+      return res
         .status(404)
-        .json({ message: "User not found or password not updated." });
+        .json({
+          success: false,
+          message: "User not found or password not updated.",
+        });
     }
+
+    console.log("Password reset successful for:", email);
+    res.status(200).json({ success: true });
   } catch (error) {
     console.error("Error resetting password:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+app.post("/getPosts", async (req, res) => {
+  try {
+    // Retrieve all posts from the database
+    const db = client.db(dbName);
+    const collection = db.collection("posts");
+    const allPosts = await collection.find({}).toArray();
+
+    // Send all posts in the response
+    res.status(200).json({ allPosts });
+  } catch (error) {
+    console.error("Error fetching posts:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 });
