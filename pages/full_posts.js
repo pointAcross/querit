@@ -10,47 +10,12 @@ var data = [{
     },
     topic: "Interships",
     commentCount: 24,
-    viewCount: 25
+    viewCount: 25,
 
-},
-{
-    id: 2,
-    title: "Academics Application For 2024-2025",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    author: {
-        id: 11,
-        name: "Shubhi Jain",
-    },
-    topic: "Academics",
-    commentCount: 256,
-    viewCount: 222
-
-}, {
-    id: 3,
-    title: "Academics Application For 2024-2025",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    author: {
-        id: 11,
-        name: "Shubhi Jain",
-    },
-    topic: "Academics",
-    commentCount: 188,
-    viewCount: 125
-}, {
-    id: 4,
-    title: "Academics Application For 2024-2025",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-    author: {
-        id: 11,
-        name: "Shubhi Jain",
-    },
-    topic: "Academics",
-    commentCount: 57,
-    viewCount: 221
 }];
 
-let postContainer = document.getElementById("post-container");
-postContainer.style.cssText = `
+let Container1 = document.getElementById("post-container");
+Container1.style.cssText = `
     display: flex;
     flex-direction: column;
     gap: 30px;  
@@ -116,11 +81,7 @@ data.forEach((post) => {
  `
     commentContainer.appendChild(comment);
     commentContainer.appendChild(commentCount);
-    commentContainer.addEventListener("click", function() {
-      
-        window.location.href = "full_posts.html";
-    });
-    
+
 
     //share_svg
     let shareSVG = '<svg width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.6666 4.58332L10.365 5.88499L8.90746 4.42749V14.6667H7.09246V4.42749L5.63496 5.88499L4.33329 4.58332L7.99996 0.916656L11.6666 4.58332ZM15.3333 9.16666V19.25C15.3333 20.2583 14.5083 21.0833 13.5 21.0833H2.49996C1.48246 21.0833 0.666626 20.2583 0.666626 19.25V9.16666C0.666626 8.14916 1.48246 7.33332 2.49996 7.33332H5.24996V9.16666H2.49996V19.25H13.5V9.16666H10.75V7.33332H13.5C14.5083 7.33332 15.3333 8.14916 15.3333 9.16666Z" fill="white"/></svg>'
@@ -128,7 +89,7 @@ data.forEach((post) => {
     share.innerHTML = shareSVG;
 
     //view_svg
-    let viewSVG = '<svg width="50" height="34" viewBox="0 0 50 34" fill="none" xmlns="http://www.w3.org/2000/svg"> < path fill-rule="evenodd" clip - rule="evenodd" d = "M24.7366 0C17.801 0 11.7288 4.15303 7.55635 7.9958C5.43662 9.94805 3.72697 11.8945 2.54737 13.3515C1.95642 14.0813 1.49552 14.692 1.17972 15.1242C1.02175 15.3405 0.899875 15.5123 0.816 15.6323C0.77405 15.6923 0.741575 15.7393 0.718825 15.7725L0.692 15.8118L0.6841 15.8235L0 16.908L0.68155 17.9227L0.6841 17.9265L0.692 17.9382L0.718825 17.9775C0.741575 18.0107 0.77405 18.0577 0.816 18.1177C0.899875 18.2377 1.02175 18.4095 1.17972 18.6258C1.49552 19.058 1.95642 19.6687 2.54737 20.3985C3.72697 21.8555 5.43662 23.802 7.55635 25.7542C11.7288 29.597 17.801 33.75 24.7366 33.75C31.6721 33.75 37.7441 29.597 41.9166 25.7542C44.0363 23.802 45.7461 21.8555 46.9256 20.3985C47.5166 19.6687 47.9773 19.058 48.2933 18.6258C48.4511 18.4095 48.5731 18.2377 48.6568 18.1177C48.6988 18.0577 48.7313 18.0107 48.7541 17.9775L48.7808 17.9382L48.7888 17.9265L48.7923 17.9215L49.4951 16.875L48.7913 15.8273L48.7888 15.8235L48.7808 15.8118L48.7541 15.7725C48.7313 15.7393 48.6988 15.6923 48.6568 15.6323C48.5731 15.5123 48.4511 15.3405 48.2933 15.1242C47.9773 14.692 47.5166 14.0813 46.9256 13.3515C45.7461 11.8945 44.0363 9.94805 41.9166 7.9958C37.7441 4.15303 31.6721 0 24.7366 0ZM5.46187 18.039C5.10342 17.5963 4.79828 17.2027 4.5507 16.875C4.79828 16.5473 5.10342 16.1537 5.46187 15.711C6.55942 14.3555 8.1448 12.552 10.0968 10.7542C14.0677 7.09697 19.2456 3.75 24.7366 3.75C30.2273 3.75 35.4053 7.09697 39.3761 10.7542C41.3281 12.552 42.9136 14.3555 44.0111 15.711C44.3696 16.1537 44.6746 16.5473 44.9223 16.875C44.6746 17.2027 44.3696 17.5963 44.0111 18.039C42.9136 19.3945 41.3281 21.198 39.3761 22.9958C35.4053 26.653 30.2273 30 24.7366 30C19.2456 30 14.0677 26.653 10.0968 22.9958C8.1448 21.198 6.55942 19.3945 5.46187 18.039ZM30.3613 16.875C30.3613 19.9815 27.8431 22.5 24.7363 22.5C21.6298 22.5 19.1114 19.9815 19.1114 16.875C19.1114 13.7685 21.6298 11.25 24.7363 11.25C27.8431 11.25 30.3613 13.7685 30.3613 16.875ZM34.1113 16.875C34.1113 22.0527 29.9141 26.25 24.7363 26.25C19.5588 26.25 15.3614 22.0527 15.3614 16.875C15.3614 11.6973 19.5588 7.5 24.7363 7.5C29.9141 7.5 34.1113 11.6973 34.1113 16.875Z" fill = "white" /></svg >'
+    let viewSVG = '<svg width="26" height="32" viewBox="0 0 50 34" fill="none" xmlns="http://www.w3.org/2000/svg"> <path fill-rule="evenodd" clip-rule="evenodd" d="M24.7366 0C17.801 0 11.7288 4.15303 7.55635 7.9958C5.43662 9.94805 3.72697 11.8945 2.54737 13.3515C1.95642 14.0812 1.49552 14.692 1.17972 15.1242C1.02175 15.3405 0.899875 15.5122 0.816 15.6322C0.77405 15.6922 0.741575 15.7393 0.718825 15.7725L0.692 15.8118L0.6841 15.8235L0 16.908L0.68155 17.9227L0.6841 17.9265L0.692 17.9382L0.718825 17.9775C0.741575 18.0108 0.77405 18.0578 0.816 18.1178C0.899875 18.2378 1.02175 18.4095 1.17972 18.6258C1.49552 19.058 1.95642 19.6688 2.54737 20.3985C3.72697 21.8555 5.43662 23.802 7.55635 25.7542C11.7288 29.597 17.801 33.75 24.7366 33.75C31.6721 33.75 37.7441 29.597 41.9166 25.7542C44.0363 23.802 45.7461 21.8555 46.9256 20.3985C47.5166 19.6688 47.9773 19.058 48.2933 18.6258C48.4511 18.4095 48.5731 18.2378 48.6568 18.1178C48.6988 18.0578 48.7313 18.0108 48.7541 17.9775L48.7808 17.9382L48.7888 17.9265L48.7923 17.9215L49.4951 16.875L48.7913 15.8273L48.7888 15.8235L48.7808 15.8118L48.7541 15.7725C48.7313 15.7393 48.6988 15.6922 48.6568 15.6322C48.5731 15.5122 48.4511 15.3405 48.2933 15.1242C47.9773 14.692 47.5166 14.0812 46.9256 13.3515C45.7461 11.8945 44.0363 9.94805 41.9166 7.9958C37.7441 4.15303 31.6721 0 24.7366 0ZM5.46187 18.039C5.10342 17.5962 4.79828 17.2027 4.5507 16.875C4.79828 16.5473 5.10342 16.1538 5.46187 15.711C6.55942 14.3555 8.1448 12.552 10.0968 10.7542C14.0677 7.09697 19.2456 3.75 24.7366 3.75C30.2273 3.75 35.4053 7.09697 39.3761 10.7542C41.3281 12.552 42.9136 14.3555 44.0111 15.711C44.3696 16.1538 44.6746 16.5473 44.9223 16.875C44.6746 17.2027 44.3696 17.5962 44.0111 18.039C42.9136 19.3945 41.3281 21.198 39.3761 22.9958C35.4053 26.653 30.2273 30 24.7366 30C19.2456 30 14.0677 26.653 10.0968 22.9958C8.1448 21.198 6.55942 19.3945 5.46187 18.039ZM30.3613 16.875C30.3613 19.9815 27.8431 22.5 24.7363 22.5C21.6298 22.5 19.1115 19.9815 19.1115 16.875C19.1115 13.7685 21.6298 11.25 24.7363 11.25C27.8431 11.25 30.3613 13.7685 30.3613 16.875ZM34.1113 16.875C34.1113 22.0528 29.9141 26.25 24.7363 26.25C19.5588 26.25 15.3615 22.0528 15.3615 16.875C15.3615 11.6973 19.5588 7.5 24.7363 7.5C29.9141 7.5 34.1113 11.6973 34.1113 16.875Z" fill="white"/></svg>'
     let view = document.createElement("div");
     view.innerHTML = viewSVG;
 
@@ -136,6 +97,8 @@ data.forEach((post) => {
     let viewCount = document.createElement("p");
     viewCount.innerText = post.viewCount;
 
+
+    //view container
     let viewContainer = document.createElement("div");
     viewContainer.style.cssText = `
         display: flex;
@@ -146,42 +109,115 @@ data.forEach((post) => {
     viewContainer.appendChild(view);
     viewContainer.appendChild(viewCount);
 
-    //upload container
+    //upload container i.e.view_container and comment_container 
     let uc = document.createElement("div")
-
-    if (pageName === "Home") {
-        uc.style.cssText = `
-        display: flex;
-        flex-direction:row;
-        justify-content:space-between;
+    uc.style.cssText = `
+         display: flex;
+         flex-direction:row;
+         align-items: center;
+         gap:20px;
     `
-        uc.appendChild(commentContainer);
-        uc.appendChild(share);
-    }
-    else {
-        uc.appendChild(commentContainer);
-        uc.style.cssText = `
-            display: flex;
-            flex-direction:row;
-            justify-content:flex-end;      
+    uc.appendChild(commentContainer);
+    uc.appendChild(viewContainer);
+    // uc.appendChild(share);
+
+    //upload container2 i.e.upload_container and share
+    let uc2 = document.createElement("div")
+    uc2.style.cssText = `
+    display: flex;
+    flex-direction:row;
+    justify-content:space-between;   
+    `
+
+    uc2.appendChild(uc);
+    uc2.appendChild(share);
+
+    //comment head
+    let comment_h = document.createElement("h1");
+    comment_h.innerText = "Comments";
+    comment_h.style.cssText = `
+            font-weight:bold;
+            color:white; 
+            margin:0px;
+            padding:0px;         
         `
-    }
     container.appendChild(authorContainer);
     container.appendChild(title);
     container.appendChild(description);
-    container.appendChild(uc);
+    container.appendChild(uc2);
 
     container.style.cssText = `
         background-color: #282828;
         color: white;
         padding: 20px;
+        padding-bottom:0px;
         border-radius:14px;
         gap:8px;
         flex-direction:column;
         display:flex;
-        flex-wrap:wrap;
-    
+        flex-wrap:wrap;    
     `
-    postContainer.appendChild(container)
+    Container1.appendChild(container)
+    Container1.appendChild(comment_h)
+
+    // Create textarea element
+    let textarea = document.createElement("textarea");
+    textarea.placeholder = "Write your comment...";
+    textarea.style.cssText = `
+         background-color: #282828;
+         color: white;
+         width: 75%;
+         padding: 10px;
+         border: 1px solid #ccc;
+         border-radius: 5px;
+         resize: vertical; 
+`;
+    // Append textarea to Container1
+    Container1.appendChild(textarea);
+
+    // Create a button element
+    const button = document.createElement('button');
+    button.style.cssText = `
+         font-size: 14px;
+         background-color: #f62500;
+         display:inline-flex;
+         transition: background-color 0.3s;
+         border: 2px solid black;
+         padding:auto 0px;
+         cursor: pointer;
+         border-radius: 14px;
+         align-items: center;
+         justify-content: center;
+         box-sizing: border-box;
+         flex-direction:column;
+         width:10%;
+         font-weight: bold;
+         color: #ffffff;
+`;
+    // Set button text
+    button.innerText = 'Post';
+
+    button.onclick = handleClick;
+    function handleClick() {
+        // Redirect to the new HTML page
+        // window.location.href = 'edit_profile.html';
+    };
+
+    /*container2*/
+    let container2 = document.createElement("div");
+    container2.style.cssText = `
+        color: white;
+        padding: 0px;
+        border-radius:14px;
+        flex-direction:row;
+        display:flex;
+        flex-wrap:wrap;    
+    `
+    container2.appendChild(textarea);
+    container2.appendChild(button);
+
+    //Appendings in the main contaainer
+    Container1.appendChild(container2);
+
 })
 

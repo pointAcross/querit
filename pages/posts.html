@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="design.css">
 </head>
 
@@ -12,10 +13,10 @@
     <div class="container">
         <div class="left-side">
             <div>
-                <div class="search-box">
-                    <input type="text" id="search" name="search" placeholder="Search">
-                    <button type="submit">Search</button>
-                </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search...">
+                    <i class="fas fa-search search-icon" id="searchIcon"></i>
+                  </div>
                 <div id="headings">
                     <h1>Topics</h1>
                 </div>
@@ -32,7 +33,7 @@
                     <p id="box-text-r">Open</p>
                 </div>
                 <div class="box">
-                    <p id="box-text-l">xyz</p>
+                    <p id="box-text-l">Collaboration</p>
                     <p id="box-text-r">Open</p>
                 </div>
             </div>
@@ -115,21 +116,22 @@
             <div class="right-inner-bg">
                 <h1 class="post_h">Add a Post</h1>
                 <div class="line">
+
                     <div class="dropdown">
-                        <button class="dropbtn">Choose the Topics<span class="arrow-icon">&#x25BE;</span></button>
-                        <div class="dropdown-content">
-                            <!-- todo add html files for reference-->
-                            <a onclick="showcontent('Academics')">Academics</a>
-                            <a  onclick="showcontent('Internships')">Internships</a>
-                            <a  onclick="showcontent('Career')">Career</a>
-                            <a  onclick="showcontent('xyz')">XYZ</a>
-                        </div>
+                        <label for="dropDown"></label>
+                        <select class="dropbtn" id="dropbtn" name = "dropDown">
+                            <option value="Academics">Academics</option>
+                            <option value="Internships">Internships</option>
+                            <option value="Career">Career</option>
+                            <option value="xyz">xyz</option>
+                        </select>
                     </div>
+
                     <div class="draft">Draft</div>
                 </div>
                 <div id="inner-bg2">
                     <textarea rows="1" placeholder="Title"></textarea>
-                    <textarea rows="12" placeholder="What's on your mind?"></textarea>
+                    <textarea rows="15" placeholder="What's on your mind?"></textarea>
 
                     <div class="line2">
                         <div class="line3">
@@ -217,10 +219,22 @@
                 tooltip.style.visibility = 'hidden';
                 tooltip.style.opacity = 0;
             });
+        });   
+
+
+        const searchInput = document.getElementById('searchInput');
+        const searchIcon = document.getElementById('searchIcon');
+      
+        searchIcon.addEventListener('click', function() {
+          const searchTerm = searchInput.value.trim();
+          if (searchTerm !== '') {
+            // Replace this with your search function
+            console.log('Searching for: ' + searchTerm);
+            // Add your search logic here
+          } else {
+            console.log('Please enter a search term.');
+          }
         });
-
-
-
     </script>
 </body>
 

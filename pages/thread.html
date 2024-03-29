@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="design.css">
 </head>
 
@@ -12,9 +13,9 @@
     <div class="container">
         <div class="left-side">
             <div>
-                <div class="search-box">
-                    <input type="text" id="search" name="search" placeholder="Search">
-                    <button type="submit">Search</button>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search...">
+                    <i class="fas fa-search search-icon" id="searchIcon"></i>
                 </div>
                 <div id="headings">
                     <h1>Topics</h1>
@@ -32,14 +33,13 @@
                     <p id="box-text-r">Open</p>
                 </div>
                 <div class="box">
-                    <p id="box-text-l">xyz</p>
+                    <p id="box-text-l">Collaboration</p>
                     <p id="box-text-r">Open</p>
                 </div>
             </div>
             <div class="footer-container">
                 <div>
                     <p>About</p>
-
                 </div>
 
                 <div>
@@ -48,7 +48,7 @@
 
                 <div class="footer-section">
                     <p>Terms of Service</p>
-                    <p >Privacy</p>
+                    <p>Privacy</p>
                 </div>
             </div>
         </div>
@@ -117,8 +117,8 @@
                 <div class="dropdown">
                     <button class="dropbtn">Sort By<span class="arrow-icon">&#x25BE;</span></button>
                     <div class="dropdown-content">
-                         <a href="Home.js" onclick="onclick('commentContainer')">Comment</a>
-                        <a href="Home.js" onclick="onclick('ViewContainer')">Views</a>
+                        <a id="comment" href="Home.js" onclick="handleDropdownClick(event)">Comment</a>
+                        <a id="views" href="Home.js" onclick="handleDropdownClick(event)">Views</a>
                     </div>
                 </div>
                 <div>
@@ -176,7 +176,23 @@
             });
 
 
+            const searchInput = document.getElementById('searchInput');
+            const searchIcon = document.getElementById('searchIcon');
+
+            searchIcon.addEventListener('click', function () {
+                const searchTerm = searchInput.value.trim();
+                if (searchTerm !== '') {
+                    // Replace this with your search function
+                    console.log('Searching for: ' + searchTerm);
+                    // Add your search logic here
+                } else {
+                    console.log('Please enter a search term.');
+                }
+            });
+
+
 
         </script>
 </body>
+
 </html>

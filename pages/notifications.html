@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Page </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="design.css">
 </head>
 
@@ -12,10 +13,10 @@
     <div class="container">
         <div class="left-side">
             <div>
-                <div class="search-box">
-                    <input type="text" id="search" name="search" placeholder="Search">
-                    <button type="submit">Search</button>
-                </div>
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search...">
+                    <i class="fas fa-search search-icon" id="searchIcon"></i>
+                  </div>
                 <div id="headings">
                     <h1>Topics</h1>
                 </div>
@@ -32,7 +33,7 @@
                     <p id="box-text-r">Open</p>
                 </div>
                 <div class="box">
-                    <p id="box-text-l">xyz</p>
+                    <p id="box-text-l">Collaboration </p>
                     <p id="box-text-r">Open</p>
                 </div>
             </div>
@@ -166,6 +167,21 @@
                     tooltip.style.visibility = 'hidden';
                     tooltip.style.opacity = 0;
                 });
+            });
+
+
+            const searchInput = document.getElementById('searchInput');
+            const searchIcon = document.getElementById('searchIcon');
+          
+            searchIcon.addEventListener('click', function() {
+              const searchTerm = searchInput.value.trim();
+              if (searchTerm !== '') {
+                // Replace this with your search function
+                console.log('Searching for: ' + searchTerm);
+                // Add your search logic here
+              } else {
+                console.log('Please enter a search term.');
+              }
             });
         </script>
 </body>
