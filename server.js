@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 // MongoDB connection configuration
 const mongoURI =
-  "mongodb+srv://Adarsh:Adarsh@querit.0c0rqzg.mongodb.net/?retryWrites=true&w=majority&appName=Querit"; // Change this to your MongoDB URI
+  "mongodb"; // Change this to your MongoDB URI
 const dbName = "querit"; // Change this to your database name
 const client = new MongoClient(mongoURI);
 
