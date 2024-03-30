@@ -1,95 +1,149 @@
-// Function to generate a random arithmetic expression for CAPTCHA
-function generateCaptcha() {
-  const operands = ["+", "-", "*"];
-  const num1 = Math.floor(Math.random() * 10) + 1;
-  const num2 = Math.floor(Math.random() * 10) + 1;
-  const operand = operands[Math.floor(Math.random() * operands.length)];
-  const expression = `${num1} ${operand} ${num2}`;
-  const result = eval(expression);
-  return { expression, result };
+// Function to generate a random CAPTCHA
+function generateCaptcha(captchaId) {
+  const captchaElement = document.getElementById(captchaId);
+  if (captchaElement) {
+    let captchaStr = "";
+    const alphaNums =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (let i = 0; i < 7; i++) {
+      captchaStr += alphaNums.charAt(
+        Math.floor(Math.random() * alphaNums.length)
+      );
+    }
+    captchaElement.textContent = captchaStr;
+  }
 }
 
-// Function to render the CAPTCHA
-function renderCaptcha() {
-  const captchaContainer = document.getElementById("captcha");
-  const { expression, result } = generateCaptcha();
-  captchaContainer.textContent = `Please solve: ${expression}`;
-  captchaContainer.dataset.result = result;
-}
+// Function to handle sign-in form submission
+function signIn(event) {
+  // Prevent the default form submission behavior
+  event.preventDefault();
 
-// Function to validate the form with CAPTCHA
-function validateForm() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const captchaInput = document.getElementById("captchaInput").value;
-  const captchaResult = parseInt(
-    document.getElementById("captcha").dataset.result
-  );
+  // Retrieve input values
+  var email = document.getElementById("email_in").value;
+  var password = document.getElementById("password_in").value;
+  var captchaInput = document.getElementById("captchaInput1").value;
 
-  if (!email || !password) {
-    alert("Email and password are required.");
-    return false;
+  // Retrieve captcha value for comparison
+  var captchaValue = document.getElementById("captcha1").innerText;
+
+  // Validate email, password, and captcha
+  if (
+    email.trim() === "" ||
+    password.trim() === "" ||
+    captchaInput.trim() === ""
+  ) {
+    alert("Please fill in all fields.");
+    return;
   }
 
-  if (captchaInput.trim() === "") {
-    alert("Please enter the result.");
-    return false;
+  // Validate captcha
+  if (captchaInput !== captchaValue) {
+    alert("Captcha is incorrect. Please try again.");
+    return;
   }
 
-  if (parseInt(captchaInput) !== captchaResult) {
-    alert("Incorrect result. Please try again.");
-    refreshCaptcha(); // Refresh CAPTCHA
-    return false;
-  }
-
-  // If CAPTCHA is correct, proceed with login
-  printMessage();
-  return false;
-}
-
-// Function to send login credentials and CAPTCHA result to server and display response
-function printMessage() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const captchaInput = document.getElementById("captchaInput").value;
-  const captchaResult = document.getElementById("captcha").dataset.result;
-
-  fetch("http://localhost:3000/login", {
+  // If all validations pass, make fetch request to server
+  fetch("/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password, captchaInput, captchaResult }),
+    body: JSON.stringify({
+      email: email,
+      password: password,
+      captchaInput: captchaInput,
+      captchaResult: captchaValue,
+    }),
   })
-    .then((response) => response.json()) // Always parse response as JSON
+    .then((response) => response.json())
     .then((data) => {
-      // Handle the JSON response here
-      console.log(data);
-      if (data.message === "Login successful.") {
-        // Redirect to home.html upon successful login
+      // Display error message dynamically
+      alert(data.message);
+      if (data.redirect) {
         window.location.href = data.redirect;
-      } else {
-        // Display error message to the user
-        alert(data.message);
-        // Refresh CAPTCHA on unsuccessful login
-        refreshCaptcha();
       }
     })
-    .catch((error) => {
-      console.error("Error:", error);
-      // Show an error message to the user
-      alert("An error occurred. Please try again.");
-      // Refresh CAPTCHA on error
-      refreshCaptcha();
-    });
+    .catch((error) => console.error("Error:", error));
 }
 
-// Function to handle refresh of CAPTCHA
-function refreshCaptcha() {
-  renderCaptcha();
+// Function to handle sign-up form submission
+function signUp(event) {
+  // Prevent the default form submission behavior
+  event.preventDefault();
+
+  // Retrieve input values
+  var name = document.getElementById("name").value;
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+  var captchaInput = document.getElementById("captchaInput2").value;
+
+  // Retrieve captcha value for comparison
+  var captchaValue = document.getElementById("captcha2").innerText;
+
+  // Validate name, email, password, and captcha
+  if (
+    name.trim() === "" ||
+    email.trim() === "" ||
+    password.trim() === "" ||
+    captchaInput.trim() === ""
+  ) {
+    alert("Please fill in all fields.");
+    return;
+  }
+
+  // Validate captcha
+  if (captchaInput !== captchaValue) {
+    alert("Captcha is incorrect. Please try again.");
+    return;
+  }
+
+  /// If all validations pass, make fetch request to server
+  fetch("/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: name,
+      email: email,
+      password: password,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert(data.message);
+      // Reload the page if registration is successful
+      if (data.message === "User registration successful.") {
+        location.reload();
+      }
+    })
+    .catch((error) => console.error("Error:", error));
 }
 
-// Ensure CAPTCHA is rendered when the page loads
+// Ensure captchas load when page loads
 window.onload = function () {
-  renderCaptcha();
- };
+  generateCaptcha("captcha1");
+  generateCaptcha("captcha2");
+};
+
+// Get reference to sign-in and sign-up buttons
+const signInButton = document.getElementById("signIn");
+const signUpButton = document.getElementById("signUp");
+const container = document.querySelector(".container");
+
+// Add event listeners to the buttons
+signInButton.addEventListener("click", function (e) {
+  e.preventDefault();
+  container.classList.remove("right-panel-active");
+});
+
+signUpButton.addEventListener("click", function (e) {
+  e.preventDefault();
+  container.classList.add("right-panel-active");
+});
+
+// Ensure that only one event listener is attached to the form submission
+document.getElementById("loginForm").addEventListener("submit", signIn);
+// Ensure that only one event listener is attached to the sign-up form submission
+document.getElementById("signUpForm").addEventListener("submit", signUp);

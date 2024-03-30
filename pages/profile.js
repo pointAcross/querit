@@ -1,3 +1,5 @@
+let title, content;
+
 // Fetch user name from server
 fetch("/getUserName")
   .then((response) => {
@@ -12,10 +14,108 @@ fetch("/getUserName")
     // Now you can use userName to update your UI
     console.log("User name:", userName);
 
+    fetch("/getUserBio")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch user bio");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Update UI with the fetched user bio
+        const userBio = data.bio;
+        // Now you can use userBio to update your UI
+        console.log("User bio:", userBio);
+      });
+
+    // Fetch user-specific posts from the server
+    fetch("/getUserPosts")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch user posts");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        // Update UI with the fetched user posts
+        const userPosts = data.userPosts;
+
+        // Now you can use userPosts to update your UI
+        console.log("User posts:", userPosts);
+
+        data.userPosts.forEach((post) => {
+          // Assign values to title and content
+          title = post.title;
+          content = post.content;
+          topic = post.topic;
+
+          let container3 = document.createElement("div");
+          container3.style.cssText = `
+          background-color: #282828;
+          color:white;
+          padding:20px;
+          display:flex;
+          flex-wrap:wrap;
+          flex-direction:column;
+          gap:12px;`;
+
+          let authorContainer = document.createElement("div");
+          let authorContainer1 = document.createElement("div");
+          authorContainer.style.cssText = `
+            display: flex;
+            flex-direction:row;
+            gap: 8px; 
+            align-items:center;
+        `;
+          // avatar
+          let avatarSVG2 =
+            '<svg width="24" height="23" viewBox="0 0 24 23" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.0151 5.75C11.2955 5.75 10.592 5.96077 9.9937 6.35566C9.39538 6.75054 8.92904 7.31181 8.65366 7.96848C8.37829 8.62515 8.30623 9.34774 8.44662 10.0449C8.58701 10.742 8.93353 11.3823 9.44236 11.8849C9.95119 12.3875 10.5995 12.7298 11.3053 12.8684C12.011 13.0071 12.7426 12.9359 13.4074 12.6639C14.0722 12.3919 14.6404 11.9313 15.0402 11.3403C15.44 10.7493 15.6534 10.0545 15.6534 9.34375C15.6534 8.39063 15.2701 7.47654 14.5878 6.80258C13.9054 6.12863 12.98 5.75 12.0151 5.75Z" fill="white"/><path d="M12.015 1.4375C10.0001 1.4375 8.03052 2.02766 6.35521 3.13334C4.67991 4.23902 3.37417 5.81057 2.60311 7.64925C1.83205 9.48793 1.63031 11.5112 2.02339 13.4631C2.41647 15.415 3.38672 17.208 4.81145 18.6153C6.23618 20.0225 8.0514 20.9809 10.0276 21.3692C12.0037 21.7574 14.0521 21.5581 15.9135 20.7965C17.775 20.0349 19.3661 18.7452 20.4855 17.0904C21.6049 15.4357 22.2024 13.4902 22.2024 11.5C22.1993 8.83218 21.1251 6.27449 19.2152 4.38806C17.3054 2.50162 14.7159 1.44051 12.015 1.4375ZM17.8309 17.9154C17.8164 16.9726 17.4275 16.0731 16.748 15.4109C16.0684 14.7486 15.1526 14.3766 14.198 14.375H9.832C8.87737 14.3766 7.9616 14.7486 7.28205 15.4109C6.6025 16.0731 6.21358 16.9726 6.19911 17.9154C4.87953 16.7516 3.94896 15.2193 3.53063 13.5215C3.1123 11.8236 3.22593 10.0403 3.85648 8.40769C4.48704 6.77506 5.60477 5.37012 7.06167 4.37889C8.51858 3.38766 10.2459 2.85691 12.015 2.85691C13.7841 2.85691 15.5114 3.38766 16.9683 4.37889C18.4253 5.37012 19.543 6.77506 20.1735 8.40769C20.8041 10.0403 20.9177 11.8236 20.4994 13.5215C20.0811 15.2193 19.1505 16.7516 17.8309 17.9154Z" fill="white"/></svg>';
+          let avatar2 = document.createElement("div");
+          avatar2.innerHTML = avatarSVG2;
+
+          // Create an h2 element and set its text content to the fetched titl
+          let titleElement = document.createElement("h2");
+          titleElement.innerText = title;
+
+          let topicElement = document.createElement("h4");
+          topicElement.innerText = topic;
+
+          let description = document.createElement("p");
+          description.innerHTML = content;
+
+          let authorName = document.createElement("p");
+          authorName.innerText = `Posted By ${userName}`;
+          authorName.style.cssText = `
+              font-size:10px;
+          `;
+
+          authorContainer1.appendChild(topicElement);
+          authorContainer1.appendChild(authorName);
+          authorContainer1.style.cssText = `
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+            `;
+
+          // author container
+          authorContainer.appendChild(avatar2);
+          authorContainer.appendChild(authorContainer1);
+
+          // Append the created title element to the desired location in the DOm
+          container3.appendChild(authorContainer);
+          container3.appendChild(titleElement);
+          container3.appendChild(description);
+          profilecontainerM.appendChild(container3);
+        });
+      })
+      .catch((error) => {
+        console.error("Error fetching user posts:", error);
+      });
+
     var data = [
       {
         id: 1,
-        title: "New Internships Announcement",
+        titlee: "New Internships Announcement",
         description:
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
         author: {
@@ -111,7 +211,7 @@ fetch("/getUserName")
       button.style = `
          font-size: 14px;
          background-color: #f62500;
-         display:inline-block;
+         display:flex;
          transition: background-color 0.3s;
          border: 2px solid black;
          padding:7px;
@@ -121,9 +221,10 @@ fetch("/getUserName")
          justify-content: center;
          box-sizing: border-box;
          flex-direction:column;
-         width: 30%;
          font-weight: bold;
          color: #ffffff;
+         position: relative;
+         right: 0;
          
         `;
       // Set button text
@@ -152,7 +253,7 @@ fetch("/getUserName")
         display: flex;
         flex-direction:column;
         flex-wrap:wrap;
-        gap:2px;
+        gap:20px;
         `;
 
       profilecontainer3.appendChild(avatar);
@@ -175,6 +276,7 @@ fetch("/getUserName")
       posts.innerText = `Posts`;
       posts.style.cssText = `
         cursor:pointer;
+        padding-left:20px;
         `;
 
       //comments
@@ -182,6 +284,7 @@ fetch("/getUserName")
       comments.innerText = `Comments`;
       comments.style.cssText = `
         cursor:pointer;
+        padding-left:20px;
         `;
 
       //media
@@ -189,6 +292,10 @@ fetch("/getUserName")
       media.innerText = `Media`;
       media.style.cssText = `
         cursor:pointer;
+        padding-right:20px;
+        
+        
+
         `;
       container2.appendChild(posts);
       container2.appendChild(comments);
@@ -211,15 +318,15 @@ fetch("/getUserName")
       let avatar2 = document.createElement("div");
       avatar2.innerHTML = avatarSVG2;
 
-      // topic
-      let topic = document.createElement("h4");
-      topic.innerText = prof.topic;
-      // author
-      let authorName = document.createElement("p");
-      authorName.innerText = `Posted By ${prof.author.name}`;
-      authorName.style.cssText = `
-            font-size:10px;
-        `;
+      // // topic
+      // let topic = document.createElement("h4");
+      // topic.innerText = prof.topic;
+      // // author
+      // let authorName = document.createElement("p");
+      // authorName.innerText = `Posted By ${prof.author.name}`;
+      // authorName.style.cssText = `
+      //       font-size:10px;
+      //   `;
       authorContainer1.appendChild(topic);
       authorContainer1.appendChild(authorName);
       authorContainer1.style.cssText = `
@@ -227,17 +334,11 @@ fetch("/getUserName")
             flex-direction: column;
             gap: 4px;
         `;
-      //title
-      let title = document.createElement("h2");
-      title.innerText = prof.title;
 
       // author container
       authorContainer.appendChild(avatar2);
       authorContainer.appendChild(authorContainer1);
 
-      // discription
-      let description = document.createElement("p");
-      description.innerText = prof.description;
       //comment_svg
       let commentSVG =
         '<svg width="23" height="23" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.75791 20.6926C6.88638 20.6712 7.01833 20.6896 7.13607 20.7453C8.48852 21.3849 9.97007 21.7211 11.5006 21.7211C17.1459 21.7211 21.7223 17.1447 21.7223 11.4994C21.7223 5.85412 17.1459 1.27771 11.5006 1.27771C5.8553 1.27771 1.27889 5.85412 1.27889 11.4994C1.27889 13.6803 1.96284 15.7566 3.21405 17.4854C3.34893 17.6718 3.37319 17.9163 3.27757 18.1255L1.72074 21.5322L6.75791 20.6926ZM0.745066 22.9901C0.240099 23.0743 -0.153802 22.56 0.0589826 22.0944L1.96366 17.9266C0.692978 16.045 0.00118209 13.8236 0.00118209 11.4994C0.00118209 5.14846 5.14964 0 11.5006 0C17.8515 0 23 5.14846 23 11.4994C23 17.8504 17.8515 22.9988 11.5006 22.9988C9.84918 22.9988 8.24608 22.6501 6.77374 21.9853L0.745066 22.9901Z" fill="white"/></svg>';
