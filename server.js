@@ -7,6 +7,10 @@ const crypto = require("crypto");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const bcrypt = require("bcrypt");
+const multer = require("multer");
+const fs = require("fs");
+const uploadDir = "./uploads";
+const { ObjectId } = require("mongodb");
 
 const app = express();
 const port = 3000;
@@ -285,14 +289,47 @@ app.get("/getUserName", async (req, res) => {
   res.status(200).json({ name: user.name });
 });
 
+// Route handler for fetching user name in the profile page
+app.get("/getUserBio", async (req, res) => {
+  // Extract the email of the logged-in user from the session
+  const userEmail = req.session.email;
+
+  // Retrieve the user document from the database using the email
+  const db = client.db(dbName);
+  const collection = db.collection("users");
+  const user = await collection.findOne({ email: userEmail });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Send the user's name in the response
+  res.status(200).json({ bio: user.bio });
+});
+
 // Route handler for saving a post to the database
 app.post("/savePost", async (req, res) => {
   try {
     // Extract post data from the request body
-    const { title, content, timestamp, userEmail } = req.body;
+    const {
+      postTitle,
+      postContent,
+      topic,
+      timestamp,
+      userEmail,
+      userName,
+      filePath,
+    } = req.body;
 
     // Ensure all required fields are present
-    if (!title || !content || !timestamp || !userEmail) {
+    if (
+      !postTitle ||
+      !postContent ||
+      !timestamp ||
+      !userEmail ||
+      !userName ||
+      !topic
+    ) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
@@ -300,10 +337,13 @@ app.post("/savePost", async (req, res) => {
     const db = client.db(dbName);
     const collection = db.collection("posts");
     await collection.insertOne({
-      title: title,
-      content: content,
+      title: postTitle, // Corrected from 'title' to 'postTitle'
+      content: postContent, // Corrected from 'content' to 'postContent'
+      topic: topic,
       timestamp: timestamp,
       userEmail: userEmail,
+      userName: userName,
+      filePath: filePath, // Store file path in the database
     });
 
     console.log("Post saved successfully."); // Debugging log
@@ -323,7 +363,10 @@ app.get("/getUserPosts", async (req, res) => {
     // Retrieve posts from the database based on the user's email
     const db = client.db(dbName);
     const collection = db.collection("posts");
-    const userPosts = await collection.find({ userEmail: userEmail }).toArray();
+    const userPosts = await collection
+      .find({ userEmail: userEmail })
+      .sort({ timestamp: -1 })
+      .toArray();
 
     // Send the user's posts in the response
     res.status(200).json({ userPosts });
@@ -339,12 +382,10 @@ app.post("/resetPassword", async (req, res) => {
 
   // Validate request body
   if (!email || !newPassword) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: "Email and new password are required.",
-      });
+    return res.status(400).json({
+      success: false,
+      message: "Email and new password are required.",
+    });
   }
 
   try {
@@ -362,12 +403,10 @@ app.post("/resetPassword", async (req, res) => {
 
     // Check if the update was successful
     if (result.modifiedCount === 0) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "User not found or password not updated.",
-        });
+      return res.status(404).json({
+        success: false,
+        message: "User not found or password not updated.",
+      });
     }
 
     console.log("Password reset successful for:", email);
@@ -378,18 +417,103 @@ app.post("/resetPassword", async (req, res) => {
   }
 });
 
+// Route handler for fetching posts
 app.post("/getPosts", async (req, res) => {
   try {
-    // Retrieve all posts from the database
+    // Fetch posts from the database
     const db = client.db(dbName);
     const collection = db.collection("posts");
-    const allPosts = await collection.find({}).toArray();
 
-    // Send all posts in the response
+    // Find all posts and sort them by timestamp in descending order
+    const allPosts = await collection.find().sort({ timestamp: -1 }).toArray();
+
+    // Send the sorted posts to the client
     res.status(200).json({ allPosts });
   } catch (error) {
     console.error("Error fetching posts:", error);
     res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// Route handler for fetching user bio
+app.get("/getUserBio", async (req, res) => {
+  // Extract the email of the logged-in user from the session
+  const userEmail = req.session.email;
+
+  // Retrieve the user document from the database using the email
+  const db = client.db(dbName);
+  const collection = db.collection("users");
+  const user = await collection.findOne({ email: userEmail });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Send the user's bio in the response
+  res.status(200).json({ bio: user.bio });
+});
+
+// Set up Multer storage
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads"); // Destination folder for uploaded files
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Use original file name
+  },
+});
+
+// Middleware function to log image requests
+app.use((req, res, next) => {
+  if (
+    req.url.endsWith(".jpg") ||
+    req.url.endsWith(".png") ||
+    req.url.endsWith(".mp4")
+  ) {
+    // Adjust file extensions as needed
+    console.log("Image fetched by client:", req.url);
+  }
+  next();
+});
+
+// Create Multer instance with defined storage
+const upload = multer({ storage: storage });
+
+// Route handler for file upload
+app.post("/uploadFile", upload.single("file"), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    // File uploaded successfully, return file path
+    const filePath = req.file.path;
+    res.status(200).json({ filePath: filePath });
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+app.post("/getPostByID", async (req, res) => {
+  try {
+    const { postID } = req.body;
+    const database = client.db(dbName);
+    const postsCollection = database.collection("posts");
+    const post = await postsCollection.findOne({ _id: new ObjectId(postID) });
+    console.log("Post fetched by ID:", postID);
+    if (post) {
+      res.json(post);
+    } else {
+      res.status(404).send("Post not found");
+    }
+  } catch (error) {
+    console.error("Error fetching post by ID:", error);
+    res.status(500).send("Internal server error");
   }
 });
 
