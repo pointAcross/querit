@@ -7,6 +7,10 @@ const crypto = require("crypto");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const bcrypt = require("bcrypt");
+const multer = require("multer");
+const fs = require("fs");
+const uploadDir = "./uploads";
+const { ObjectId } = require("mongodb");
 
 const app = express();
 const port = 3000;
@@ -14,10 +18,10 @@ const secretKey = crypto.randomBytes(20).toString("hex");
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // MongoDB connection configuration
-const mongoURI =
-  "mongodb"; // Change this to your MongoDB URI
+const mongoURI = "mongodb"; // Change this to your MongoDB URI
 const dbName = "querit"; // Change this to your database name
 const client = new MongoClient(mongoURI);
 
@@ -75,6 +79,7 @@ app.get(
 
 // Serve static files after applying authentication middleware
 app.use(express.static("proj"));
+app.use(express.static("uploads"));
 
 // Route handler for the root path
 app.get("/", (req, res) => {
@@ -282,17 +287,50 @@ app.get("/getUserName", async (req, res) => {
   }
 
   // Send the user's name in the response
-  res.status(200).json({ name: user.name });
+  res.status(200).json({ name: user.name, email: user.email });
+});
+
+// Route handler for fetching user name in the profile page
+app.get("/getUserBio", async (req, res) => {
+  // Extract the email of the logged-in user from the session
+  const userEmail = req.session.email;
+
+  // Retrieve the user document from the database using the email
+  const db = client.db(dbName);
+  const collection = db.collection("users");
+  const user = await collection.findOne({ email: userEmail });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Send the user's name in the response
+  res.status(200).json({ bio: user.bio });
 });
 
 // Route handler for saving a post to the database
 app.post("/savePost", async (req, res) => {
   try {
     // Extract post data from the request body
-    const { title, content, timestamp, userEmail } = req.body;
+    const {
+      postTitle,
+      postContent,
+      topic,
+      timestamp,
+      userEmail,
+      userName,
+      filePath,
+    } = req.body;
 
     // Ensure all required fields are present
-    if (!title || !content || !timestamp || !userEmail) {
+    if (
+      !postTitle ||
+      !postContent ||
+      !timestamp ||
+      !userEmail ||
+      !userName ||
+      !topic
+    ) {
       return res.status(400).json({ message: "All fields are required." });
     }
 
@@ -300,10 +338,16 @@ app.post("/savePost", async (req, res) => {
     const db = client.db(dbName);
     const collection = db.collection("posts");
     await collection.insertOne({
-      title: title,
-      content: content,
+      title: postTitle,
+      content: postContent,
+      topic: topic,
       timestamp: timestamp,
       userEmail: userEmail,
+      userName: userName,
+      filePath: filePath, // Store file path in the database
+      commentCount: 0,
+      viewCount: 0,
+      comments: [],
     });
 
     console.log("Post saved successfully."); // Debugging log
@@ -323,7 +367,10 @@ app.get("/getUserPosts", async (req, res) => {
     // Retrieve posts from the database based on the user's email
     const db = client.db(dbName);
     const collection = db.collection("posts");
-    const userPosts = await collection.find({ userEmail: userEmail }).toArray();
+    const userPosts = await collection
+      .find({ userEmail: userEmail })
+      .sort({ timestamp: -1 })
+      .toArray();
 
     // Send the user's posts in the response
     res.status(200).json({ userPosts });
@@ -339,12 +386,10 @@ app.post("/resetPassword", async (req, res) => {
 
   // Validate request body
   if (!email || !newPassword) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: "Email and new password are required.",
-      });
+    return res.status(400).json({
+      success: false,
+      message: "Email and new password are required.",
+    });
   }
 
   try {
@@ -362,12 +407,10 @@ app.post("/resetPassword", async (req, res) => {
 
     // Check if the update was successful
     if (result.modifiedCount === 0) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "User not found or password not updated.",
-        });
+      return res.status(404).json({
+        success: false,
+        message: "User not found or password not updated.",
+      });
     }
 
     console.log("Password reset successful for:", email);
@@ -378,18 +421,209 @@ app.post("/resetPassword", async (req, res) => {
   }
 });
 
+// Route handler for fetching posts
 app.post("/getPosts", async (req, res) => {
   try {
-    // Retrieve all posts from the database
+    // Fetch posts from the database
     const db = client.db(dbName);
     const collection = db.collection("posts");
-    const allPosts = await collection.find({}).toArray();
 
-    // Send all posts in the response
+    // Find all posts and sort them by timestamp in descending order
+    const allPosts = await collection.find().sort({ timestamp: -1 }).toArray();
+
+    // Send the sorted posts to the client
     res.status(200).json({ allPosts });
   } catch (error) {
     console.error("Error fetching posts:", error);
     res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// Route handler for fetching user bio
+app.get("/getUserBio", async (req, res) => {
+  // Extract the email of the logged-in user from the session
+  const userEmail = req.session.email;
+
+  // Retrieve the user document from the database using the email
+  const db = client.db(dbName);
+  const collection = db.collection("users");
+  const user = await collection.findOne({ email: userEmail });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  // Send the user's bio in the response
+  res.status(200).json({ bio: user.bio });
+});
+
+// Set up Multer storage
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./uploads"); // Destination folder for uploaded files
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Use original file name
+  },
+});
+
+// Middleware function to log image requests
+app.use((req, res, next) => {
+  if (
+    req.url.endsWith(".jpg") ||
+    req.url.endsWith(".png") ||
+    req.url.endsWith(".mp4")
+  ) {
+    // Adjust file extensions as needed
+    console.log("Image fetched by client:", req.url);
+  }
+  next();
+});
+
+// Create Multer instance with defined storage
+const upload = multer({ storage: storage });
+
+// Route handler for file upload
+app.post("/uploadFile", upload.single("file"), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    // File uploaded successfully, return file path
+    const filePath = req.file.path;
+    res.status(200).json({ filePath: filePath });
+  } catch (error) {
+    console.error("Error uploading file:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+app.post("/getPostByID", async (req, res) => {
+  try {
+    const { postID } = req.body;
+    const database = client.db(dbName);
+    const postsCollection = database.collection("posts");
+    const post = await postsCollection.findOne({ _id: new ObjectId(postID) });
+    if (post) {
+      res.json([post]);
+    } else {
+      res.status(404).send("Post not found");
+    }
+  } catch (error) {
+    console.error("Error fetching post by ID:", error);
+    res.status(500).send("Internal server error");
+  }
+});
+
+// Increment view count
+app.post("/incrementViewCount", async (req, res) => {
+  const postID = req.body.postID;
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("posts");
+    const result = await collection.updateOne(
+      { _id: new ObjectId(postID) },
+      { $inc: { viewCount: 1 } }
+    );
+    if (result.modifiedCount === 1) {
+      res.status(200).json({ message: "View count incremented successfully" });
+    } else {
+      res.status(404).json({ message: "Post not found" });
+    }
+  } catch (error) {
+    console.error("Error incrementing view count:", error);
+    res.status(500).json({ message: "Error incrementing view count" });
+  }
+});
+
+// Route handler for adding a comment to a post
+app.post("/addComment", async (req, res) => {
+  const { postID, comment } = req.body;
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("posts");
+    const result = await collection.updateOne(
+      { _id: new ObjectId(postID) },
+      {
+        $push: {
+          comments: {
+            text: comment.text,
+            email: comment.userEmail,
+            name: comment.userName,
+          },
+        },
+        $inc: { commentCount: 1 },
+      }
+    );
+    if (result.modifiedCount === 1) {
+      res.status(200).json({ message: "Comment added successfully" });
+    } else {
+      res.status(404).json({ message: "Post not found" });
+    }
+  } catch (error) {
+    console.error("Error adding comment:", error);
+    res.status(500).json({ message: "Error adding comment" });
+  }
+});
+
+// Route handler for fetching posts sorted by comments count
+app.post("/sortComment", async (req, res) => {
+  try {
+    // Fetch posts from the database
+    const db = client.db(dbName);
+    const collection = db.collection("posts");
+
+    // Find all posts and sort them by comments in descending order
+    const allPosts = await collection
+      .find()
+      .sort({ commentCount: -1 })
+      .toArray();
+
+    // Send the sorted posts to the client
+    res.status(200).json({ allPosts });
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// Route handler for fetching posts sorted by view count
+app.post("/sortView", async (req, res) => {
+  try {
+    // Fetch posts from the database
+    const db = client.db(dbName);
+    const collection = db.collection("posts");
+
+    // Find all posts and sort them by views in descending order
+    const allPosts = await collection.find().sort({ viewCount: -1 }).toArray();
+
+    // Send the sorted posts to the client
+    res.status(200).json({ allPosts });
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// Server-side code
+app.post("/userComments", async (req, res) => {
+  const userEmail = req.body.userEmail; // Extract the user email from the request body
+  try {
+    const db = client.db(dbName);
+    const collection = db.collection("posts");
+    const userComments = await collection
+      .find({ comments: { $elemMatch: { email: userEmail } } })
+      .project({ "comments.$": 1 }) // Project only the matched comments
+      .toArray();
+    res.status(200).json(userComments);
+  } catch (error) {
+    console.error("Error fetching user comments:", error);
+    res.status(500).json({ message: "Error fetching user comments" });
   }
 });
 
