@@ -262,6 +262,8 @@
             userEmail: userEmail,
             userName: userName,
             filePath: filePath, // Include file path in post data
+            // commentCount: 0,
+            // viewCount: 0,
           };
 
           // Send post data to server for saving the post
@@ -275,11 +277,13 @@
 
           if (response.ok) {
             console.log("Post saved successfully.");
+            window.location.href = "/home.html";
           } else {
             console.error("Failed to save post.");
           }
         } catch (error) {
           console.error("Error posting content:", error);
+          alert("Failed to post content. Please try again.");
         }
       }
 

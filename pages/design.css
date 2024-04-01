@@ -711,3 +711,11 @@ code {
 .ql-snow::before {
   color: white; /* Adjust the color as desired */
 }
+
+/* .name-and-button-container {
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+} */

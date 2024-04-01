@@ -59,9 +59,11 @@ function signIn(event) {
     .then((response) => response.json())
     .then((data) => {
       // Display error message dynamically
-      alert(data.message);
+      // alert(data.message);
       if (data.redirect) {
         window.location.href = data.redirect;
+      } else {
+        alert("Incorrect email or password. Please try again.");
       }
     })
     .catch((error) => console.error("Error:", error));
