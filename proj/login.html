@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login/Signup</title>
+    <link rel="stylesheet" href="http://localhost:3000/login.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet" />
+  </head>
+
+  <body>
+    <h2>Querit-Ask Questions Get Answers</h2>
+    <div class="container" id="container">
+      <div class="form-container sign-in-container">
+        <form id="loginForm" action="submit">
+          <h1>Sign in</h1>
+          <span>Input your account email</span>
+          <input type="email" id="email_in" placeholder="Email" />
+          <input type="password" id="password_in" placeholder="Password" />
+          <div class="captcha-container">
+            <div class="together">
+              <div class="captcha" id="captcha1"></div>
+              <!-- Add unique ID for sign-in captcha -->
+              <div class="refresh-icon" onclick="generateCaptcha('captcha1')">
+                <!-- Pass unique ID as parameter -->
+                &#8635;
+                <!-- Unicode character for refresh icon -->
+              </div>
+            </div>
+            <!-- New input field for captcha entry -->
+            <input
+              type="text"
+              id="captchaInput1"
+              class="captchaInput"
+              placeholder="Captcha" />
+          </div>
+          <a href="http://localhost:3000/preset.html">Forgot Password?</a>
+          <button onclick="signIn(event)">Sign In</button>
+        </form>
+      </div>
+      <div class="form-container sign-up-container">
+        <form id="signUpForm" action="submit">
+          <h1>Create Account</h1>
+          <span>Enter your email address to continue.</span>
+          <input type="text" id="name" placeholder="Name" />
+          <input type="email" id="email" placeholder="Email" />
+          <input type="password" id="password" placeholder="Password" />
+          <div class="captcha-container">
+            <div class="together">
+              <div class="captcha" id="captcha2"></div>
+              <!-- Add unique ID for sign-up captcha -->
+              <div class="refresh-icon" onclick="generateCaptcha('captcha2')">
+                <!-- Pass unique ID as parameter -->
+                &#8635;
+                <!-- Unicode character for refresh icon -->
+              </div>
+            </div>
+            <!-- New input field for captcha entry -->
+            <input
+              type="text"
+              id="captchaInput2"
+              class="captchaInput"
+              placeholder="Captcha" />
+          </div>
+          <button onclick="signUp(event)">Sign Up</button>
+        </form>
+      </div>
+
+      <div class="overlay-container">
+        <div class="overlay">
+          <div class="overlay-panel overlay-left">
+            <h1>Welcome Back!</h1>
+            <p class="rightolay">
+              To continue browsing and get answers to your questions, please login with your details.
+            </p>
+            <button class="ghost" id="signIn">Sign In</button>
+          </div>
+          <div class="overlay-panel overlay-right">
+            <h1 class="rightolay">Hello, Friend!</h1>
+            <p class="rightolay">
+              Enter your personal details and start journey with us!
+            </p>
+            <button class="ghost" id="signUp">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="http://localhost:3000/login.js"></script>
+  </body>
+</html>

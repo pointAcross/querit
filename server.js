@@ -19,9 +19,11 @@ const secretKey = crypto.randomBytes(20).toString("hex");
 app.use(cors());
 app.use(bodyParser.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/proj", express.static(path.join(__dirname, "proj")));
 
 // MongoDB connection configuration
-const mongoURI = "mongodb"; // Change this to your MongoDB URI
+const mongoURI =
+  "mongodb+srv://Adarsh:Adarsh@querit.0c0rqzg.mongodb.net/?retryWrites=true&w=majority&appName=Querit"; // Change this to your MongoDB URI
 const dbName = "querit"; // Change this to your database name
 const client = new MongoClient(mongoURI);
 
@@ -555,6 +557,7 @@ app.post("/addComment", async (req, res) => {
             text: comment.text,
             email: comment.userEmail,
             name: comment.userName,
+            topic: comment.topic,
           },
         },
         $inc: { commentCount: 1 },

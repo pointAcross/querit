@@ -18,3 +18,6 @@ As we develop and test this project, the primary users will be our teachers and 
 This is a web app hosted on [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages) for now. We are using RDS DB from Amazon Web Services to host our MySQL database. While the backend will be made with [Node.js](https://nodejs.org) and the frontend is made up of HTML, CSS and JS. 
 
 More information will be added as we develop the application in the times to come. Please note that this committed files don't reflect the current status of the project. 
+
+### Contributors
+[![Contributors](https://contrib.rocks/image?repo=pointAcross/querit)](https://github.com/pointAcross/querit/graphs/contributors)
