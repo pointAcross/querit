@@ -66,6 +66,9 @@ function fetchPostByID(postID) {
         //title
         let title = document.createElement("h2");
         title.innerText = post.title;
+        title.style.cssText = `
+                margin-top:12px;
+              `;
 
         authorContainer.appendChild(avatar);
         authorContainer.appendChild(authorContainer1);
