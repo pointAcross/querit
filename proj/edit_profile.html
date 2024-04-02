@@ -48,7 +48,7 @@
           </div>
 
           <div>
-            <button class="logout-btn">Logout</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
           </div>
 
           <div class="footer-section">
@@ -168,5 +168,38 @@
       </div>
     </div>
     <script src="edit_profile.js"></script>
+    <script>
+      async function logout() {
+        try {
+          console.log("Attempting logout..."); // Debugging log
+
+          const response = await fetch("/logout", { method: "POST" });
+
+          if (response.ok) {
+            console.log("Logout request successful."); // Debugging log
+
+            const responseData = await response.json();
+
+            if (responseData.redirectToLogin) {
+              console.log("Redirecting to login page..."); // Debugging log
+
+              // Clear the session cookie on the client side
+              document.cookie =
+                "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+              // Clear login status from localStorage
+              localStorage.removeItem("isLoggedIn");
+
+              // Redirect to the login page
+              window.location.href = "/login.html";
+            }
+          } else {
+            console.error("Logout request failed."); // Debugging log
+          }
+        } catch (error) {
+          console.error("Error during logout:", error);
+        }
+      }
+    </script>
   </body>
 </html>
