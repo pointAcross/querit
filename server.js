@@ -22,8 +22,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/proj", express.static(path.join(__dirname, "proj")));
 
 // MongoDB connection configuration
-const mongoURI =
-  "mongodb+srv://Adarsh:Adarsh@querit.0c0rqzg.mongodb.net/?retryWrites=true&w=majority&appName=Querit"; // Change this to your MongoDB URI
+const mongoURI = "mongodb"; // Change this to your MongoDB URI
 const dbName = "querit"; // Change this to your database name
 const client = new MongoClient(mongoURI);
 
@@ -613,15 +612,18 @@ app.post("/sortView", async (req, res) => {
   }
 });
 
-// Server-side code
+// Server-side code to fetch user comments
 app.post("/userComments", async (req, res) => {
   const userEmail = req.body.userEmail; // Extract the user email from the request body
   try {
     const db = client.db(dbName);
     const collection = db.collection("posts");
     const userComments = await collection
-      .find({ comments: { $elemMatch: { email: userEmail } } })
-      .project({ "comments.$": 1 }) // Project only the matched comments
+      .aggregate([
+        { $unwind: "$comments" }, // Unwind the comments array
+        { $match: { "comments.email": userEmail } }, // Match comments by user email
+        { $project: { _id: 0, comments: 1 } }, // Project only the comments
+      ])
       .toArray();
     res.status(200).json(userComments);
   } catch (error) {

@@ -5,14 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notifications</title>
     <link rel="stylesheet" href="design.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
   </head>
   <body>
     <div class="container">
       <div class="left-side">
         <div>
-          <div class="search-box">
-            <input type="text" id="search" name="search" placeholder="Search" />
-            <button type="submit">Search</button>
+          <div class="search-container">
+            <input
+              type="text"
+              class="search-input"
+              id="searchInput"
+              placeholder="Search..." />
+            <i class="fas fa-search search-icon" id="searchIcon"></i>
           </div>
           <div id="headings">
             <h1>Topics</h1>
@@ -30,13 +37,13 @@
             <p id="box-text-r">Open</p>
           </div>
           <div class="box">
-            <p id="box-text-l">xyz</p>
+            <p id="box-text-l">Collaboration</p>
             <p id="box-text-r">Open</p>
           </div>
         </div>
         <div class="footer-container">
           <div>
-            <p>About</p>
+            <a href="/about.html"><p>About</p></a>
           </div>
           <div>
             <button onclick="logout()" class="logout-btn">Logout</button>
@@ -49,42 +56,62 @@
       </div>
       <div class="right-side">
         <div class="navigation-bar">
-          <a href="home.html" onclick="showContent('home')">
-            <img
-              src="images/home.png"
-              alt="Home"
-              onmouseover="onHover(this,'images/hover/Home1.png')"
-              onmouseout="onMouseOut(this, 'images/Home.png')" />
-          </a>
-          <a href="posts.html" onclick="showContent('posts')">
-            <img
-              src="images/post.png"
-              alt="Posts"
-              onmouseover="onHover(this,'images/hover/post1.png')"
-              onmouseout="onMouseOut(this, 'images/post.png')" />
-          </a>
-          <a href="thread.html" onclick="showContent('thread')">
-            <img
-              src="images/hashtag.png"
-              alt="Threads"
-              onmouseover="onHover(this, 'images/hover/hashtag1.png')"
-              onmouseout="onMouseOut(this, 'images/hashtag.png')" />
-          </a>
-          <a href="notifications.html" onclick="showContent('notifications')">
-            <img
-              src="images/noti.png"
-              alt="Notifications"
-              onmouseover="onHover(this,'images/hover/noti1.png')"
-              onmouseout="onMouseOut(this, 'images/noti.png')" />
-          </a>
-          <a href="profile.html" onclick="showContent('profile')">
-            <img
-              src="images/profile.png"
-              alt="Profile"
-              onmouseover="onHover(this,'images/hover/profile1.png')"
-              onmouseout="onMouseOut(this, 'images/profile.png')" />
-          </a>
+          <div class="tooltip">
+            <a href="home.html" onclick="showContent('home')">
+              <img
+                src="images/home.png"
+                alt="Home"
+                onmouseover="showTooltip(this, 'Home')"
+                onmouseout="hideTooltip(this)" />
+              <span class="tooltiptext">Home</span>
+            </a>
+          </div>
+
+          <div class="tooltip">
+            <a href="postS.html" onclick="showContent('posts')">
+              <img
+                src="images/post.png"
+                alt="Posts"
+                onmouseover="showTooltip(this, 'Post')"
+                onmouseout="hideTooltip(this)" />
+              <span class="tooltiptext">Post</span>
+            </a>
+          </div>
+
+          <div class="tooltip">
+            <a href="thread.html" onclick="showContent('thread')">
+              <img
+                src="images/hashtag.png"
+                alt="thread"
+                onmouseover="showTooltip(this, 'Thread')"
+                onmouseout="hideTooltip(this)" />
+              <span class="tooltiptext">Thread</span>
+            </a>
+          </div>
+
+          <div class="tooltip">
+            <a href="notifications.html" onclick="showContent('notifications')">
+              <img
+                src="images/noti.png"
+                alt="Notification"
+                onmouseover="showTooltip(this, 'Notification')"
+                onmouseout="hideTooltip(this)" />
+              <span class="tooltiptext">Notification</span>
+            </a>
+          </div>
+
+          <div class="tooltip">
+            <a href="profile.html" onclick="showContent('Profile')">
+              <img
+                src="images/profile.png"
+                alt="Profile"
+                onmouseover="showTooltip(this, 'Profile')"
+                onmouseout="hideTooltip(this)" />
+              <span class="tooltiptext">Profile</span>
+            </a>
+          </div>
         </div>
+
         <div id="content-home">
           <a href="home.html"></a>
         </div>
@@ -107,7 +134,6 @@
             <script src="notification.js" type="text/javascript"></script>
           </div>
         </div>
-        <div></div>
       </div>
     </div>
     <script>

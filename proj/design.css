@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: Arial, sans-serif;
 }
@@ -43,14 +44,39 @@ p {
   overflow-y: scroll;
 }
 
-.search-box {
+.search-container {
   flex: 1;
-  width: 100%;
+  position: relative;
+  right: 10px;
+  width: 200px;
   padding: 10px;
-  box-sizing: border-box;
   display: flex;
   flex-wrap: nowrap;
-  /* margin-bottom: 20px; */
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  border-radius: 40px;
+  font-size: 16px;
+  background-color: #ece4d4;
+  color: black;
+}
+
+.search-icon {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #555;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .search-input {
+    font-size: 14px;
+  }
 }
 
 #attachmentIcon {
@@ -60,16 +86,6 @@ p {
   width: 20px;
 }
 
-.search-box button {
-  border: none;
-  outline: none;
-  background-color: #ece4d4;
-  color: black;
-  padding: 5px 10px;
-  border-radius: 6px;
-  margin-left: 10px; /* Add margin for spacing */
-  cursor: pointer;
-}
 .navigation-bar {
   position: sticky;
   top: 0;
@@ -126,12 +142,15 @@ p {
   border-radius: 6px;
   padding: 4px 8px;
   position: absolute;
-  bottom: -20px; /* Position the tooltip below the icon */
-  left: 50%; /* Center the tooltip horizontally */
+  bottom: -20px;
+  /* Position the tooltip below the icon */
+  left: 50%;
+  /* Center the tooltip horizontally */
   transform: translateX(-50%);
   z-index: 1;
   font-size: 14px;
-  opacity: 0; /* Make the tooltip initially hidden */
+  opacity: 0;
+  /* Make the tooltip initially hidden */
   transition: opacity 0.3s, transform 0.3s;
 }
 
@@ -152,21 +171,28 @@ p {
     padding: 6px 8px;
     position: absolute;
     font-size: 12px;
-    bottom: -20px; /* Position the tooltip below the icon/button */
-    left: 50%; /* Center the tooltip horizontally */
+    bottom: -20px;
+    /* Position the tooltip below the icon/button */
+    left: 50%;
+    /* Center the tooltip horizontally */
     transform: translateX(-50%);
     z-index: 1;
-    opacity: 0; /* Make the tooltip initially hidden */
+    opacity: 0;
+    /* Make the tooltip initially hidden */
     transition: opacity 0.3s, transform 0.3s;
   }
 }
+
 @media only screen and (max-width: 576px) {
   .tooltip .tooltiptext {
-    width: 66px; /* Further adjust tooltip width for even smaller screens */
+    width: 66px;
+    /* Further adjust tooltip width for even smaller screens */
     padding: 6px 0px;
-    left: 50%; /* Center the tooltip horizontally */
+    left: 50%;
+    /* Center the tooltip horizontally */
   }
 }
+
 #content-home {
   display: none;
 }
@@ -201,7 +227,7 @@ p {
   background-color: #efe2d2;
   color: black;
   cursor: pointer;
-  border-radius: 40px;
+  border-radius: 16px;
   align-items: center;
   box-sizing: border-box;
   flex-direction: row;
@@ -284,10 +310,14 @@ p {
   padding-top: 10px;
   font-weight: bolder;
 }
+
 .dropdown {
   display: flex;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
+  margin-top: 0px;
+  font-family: Arial, sans-serif;
+  width: 20%;
 }
 
 .dropbtn {
@@ -295,54 +325,72 @@ p {
   align-items: center;
   background-color: #333;
   color: white;
-  font-size: 16px;
+  font-size: 18px;
   border: none;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 8px;
   transition: background-color 0.3s;
   position: relative;
-  width: 180px;
+  width: 125px;
   box-sizing: border-box;
+  padding: 4px;
+}
+
+.dropdown:hover {
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown:hover.option {
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 125px;
+    z-index: 1;
+    border-radius: 4px;
+    padding: 4px 2px;
+  }
+
+  .dropdown-content a {
+    color: white;
+    padding: 4px 2px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+    background-color: black;
+    color: #fff;
+  }
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
-  /* top: 100%; */
-  background-color: #282828;
-  min-width: 180px;
-  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+  background-color: black;
+  min-width: 125px;
   z-index: 1;
-  animation: fadeIn 0.5s ease-in-out;
-  padding: 4px 0;
+  border-radius: 4px;
+  padding: 4px 4px;
 }
 
 .dropdown-content a {
   color: white;
-  padding: 5px 10px;
+  padding: 4px 4px;
   text-decoration: none;
-  display: flex;
-  transition: background-color 0.3s;
-  border-radius: 4px;
-  font-size: 12px;
-}
-
-.dropdown-content a:hover {
-  background-color: black;
-  border-radius: 6px;
+  display: block;
 }
 
 .dropdown:hover .dropdown-content {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  margin-top: 25px;
 }
 
-.dropdown:hover .dropbtn {
-  background-color: #555;
-}
-
-.dropdown:hover .dropbtn .arrow-icon {
-  color: #fff;
+.dropdown-content a:hover {
+  border: 2px solid white;
+  border-radius: 8px;
 }
 
 @keyframes fadeIn {
@@ -360,12 +408,6 @@ p {
     font-size: 10px;
     padding: 6px 12px;
     width: auto;
-  }
-
-  .dropdown-content {
-    top: calc(100% + 4px);
-    min-width: 160px;
-    /* Adjusted for smaller screens */
   }
 }
 
@@ -394,14 +436,13 @@ p {
   margin-bottom: 20px;
   width: 100%;
   background-color: #282828;
-  font-size: 20px;
+  font-size: 16px;
   border: none;
   color: white;
 }
 
 #inner-bg2 textarea::placeholder {
-  color: white;
-  font-weight: bold;
+  color: grey;
 }
 
 .line2 {
@@ -476,8 +517,8 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 0px;
-  height: 80vh; /* Make container take up the full viewport height */
+  height: 70vh;
+  /* Make container take up the full viewport height */
 }
 
 .edit_h1 {
@@ -486,9 +527,9 @@ h1 {
   justify-content: center;
   align-items: center;
   font-weight: bolder;
-  padding-top: 0px;
-  padding-bottom: 20px;
+  padding-top: 20px;
 }
+
 #inner-bg3 {
   padding: 2vw;
   display: flex;
@@ -507,6 +548,7 @@ label {
   font-weight: bold;
   color: white;
 }
+
 #inner-bg3 .edit_input::placeholder {
   color: white;
 }
@@ -528,168 +570,42 @@ textarea {
 .button-container {
   text-align: center;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+.update-button,
+.cancel-button {
+  margin-top: 8px;
+  color: white;
+  padding: 8px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 80%;
+  font-size: 16px;
 }
 
 .update-button {
-  margin-top: 8px;
   background-color: green;
-  color: white;
-  padding: 8px 20px 8px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 150px;
-  font-size: 16px;
 }
 
-.update-button:hover {
-  font-weight: bold;
-  color: black;
+.cancel-button {
+  background-color: red;
 }
 
-.dropdown {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 50px;
-  margin-top: 0px;
-  font-family: Arial, sans-serif;
-}
-
-.dropbtn {
-  display: flex;
-  align-items: center;
-  background-color: #333;
-  color: white;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s;
-  position: relative;
-  width: 110px;
-  box-sizing: border-box;
-}
-
-.dropdown:hover {
-  display: flex;
-  flex-direction: column;
-}
-
-.dropdown:hover.option {
-  background-color: #555;
-  color: #fff;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-@media screen and (max-width: 600px) {
-  .dropbtn {
-    font-size: 10px;
-    padding: 6px 12px;
+@media screen and (min-width: 768px) {
+  .update-button,
+  .cancel-button {
+    padding: 8px 20px;
     width: auto;
   }
 }
 
-.draft {
-  padding-right: 40px;
-}
-
-.line {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-#inner-bg2 {
-  padding: 25px;
-  display: flex;
-  background-color: #282828;
-  border-radius: 12px;
-  flex-direction: column;
-  border: 2px solid black;
-  align-items: center;
-  color: white;
-}
-
-#inner-bg2 textarea {
-  margin-bottom: 20px;
-  width: 100%;
-  background-color: #282828;
-  font-size: 16px;
-  border: none;
-  color: white;
-}
-
-#inner-bg2 textarea::placeholder {
-  color: grey;
-}
-
-.line2 {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.line3 {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: start;
-}
-
-.post-button {
-  margin-top: 10px;
-  font-size: 16px;
-  background-color: #f62500;
-  display: flex;
-  transition: background-color 0.3s;
-  border: 2px solid black;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 12px;
-  justify-content: center;
-  box-sizing: border-box;
-  flex-direction: row;
+.update-button:hover,
+.cancel-button:hover {
   font-weight: bold;
-  color: #ffffff;
-}
-
-label {
-  padding-right: 5px;
-}
-
-/* Bold */
-strong {
-  font-weight: bold;
-}
-
-/* Italics */
-em {
-  font-style: italic;
-}
-
-/* Strikethrough */
-s {
-  text-decoration: line-through;
-}
-
-/* Code */
-code {
-  font-family: monospace;
-  background-color: #f4f4f4;
-  padding: 2px 4px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  color: black;
+  border: 1px solid black;
 }
 
 #editor,
@@ -710,4 +626,9 @@ code {
 /* Adjust the placeholder text color */
 .ql-snow::before {
   color: white; /* Adjust the color as desired */
+}
+
+a {
+  color: white;
+  text-decoration: none;
 }

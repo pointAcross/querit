@@ -29,13 +29,11 @@ fetch("http://localhost:3000/getUserName")
         return response.json();
       })
       .then((data) => {
-        const allComments = data.flatMap((post) =>
-          post.comments.map((comment) => ({
-            name: comment.name,
-            comment: comment.text,
-            topic: comment.topic,
-          }))
-        );
+        const allComments = data.flatMap((comment) => ({
+          name: comment.comments.name,
+          comment: comment.comments.text,
+          topic: comment.comments.topic,
+        }));
 
         //Main Container element
         let profilecontainerM = document.getElementById("profile_container");
@@ -202,6 +200,7 @@ fetch("http://localhost:3000/getUserName")
         allComments.forEach((comment) => {
           console.log("Name:", comment.name);
           console.log("Comment:", comment.comment);
+          console.log("Topic:", comment.topic);
 
           let Container1_c = document.getElementById("profile_container");
           Container1_c.style.cssText = `
