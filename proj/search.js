@@ -17,7 +17,6 @@ async function fetchSearchResults() {
   }
 }
 
-// Example usage:
 fetchSearchResults().then((data) => {
   if (data.error) {
     console.error(data.error);

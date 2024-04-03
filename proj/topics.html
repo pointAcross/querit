@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Page</title>
+    <link rel="stylesheet" href="design.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    <link rel="stylesheet" href="design.css" />
   </head>
 
   <body>
@@ -25,21 +25,23 @@
           <div id="headings">
             <h1>Topics</h1>
           </div>
-          <div class="box">
-            <p id="box-text-l">Academics</p>
-            <p id="box-text-r">Open</p>
-          </div>
-          <div class="box">
-            <p id="box-text-l">Internships</p>
-            <p id="box-text-r">Open</p>
-          </div>
-          <div class="box">
-            <p id="box-text-l">Career</p>
-            <p id="box-text-r">Open</p>
-          </div>
-          <div class="box">
-            <p id="box-text-l">Collaboration</p>
-            <p id="box-text-r">Open</p>
+          <div class="topics">
+            <div class="box">
+              <p id="box-text-l">Academics</p>
+              <p id="box-text-r">Open</p>
+            </div>
+            <div class="box">
+              <p id="box-text-l">Internships</p>
+              <p id="box-text-r">Open</p>
+            </div>
+            <div class="box">
+              <p id="box-text-l">Career</p>
+              <p id="box-text-r">Open</p>
+            </div>
+            <div class="box">
+              <p id="box-text-l">Collaborations</p>
+              <p id="box-text-r">Open</p>
+            </div>
           </div>
         </div>
         <div class="footer-container">
@@ -48,7 +50,7 @@
           </div>
 
           <div>
-            <button class="logout-btn">Logout</button>
+            <button onclick="logout()" class="logout-btn">Logout</button>
           </div>
 
           <div class="footer-section">
@@ -132,23 +134,14 @@
           <a href="profile.html"></a>
         </div>
         <div id="inner-bg">
-          <div class="dropdown">
-            <button class="dropbtn">
-              Comments<span class="arrow-icon">&#x25BE;</span>
-            </button>
-            <div class="dropdown-content">
-              <a id="views" href="sortViews.html">Views</a>
-            </div>
-          </div>
           <div>
             <div id="post-container"></div>
             <script>
-              var pageName = "Thread";
+              var pageName = "Home";
             </script>
-            <script src="cSort.js" type="text/javascript"></script>
+            <script src="topics.js" type="text/javascript"></script>
           </div>
         </div>
-        <div></div>
       </div>
 
       <script>
@@ -171,41 +164,47 @@
         function onMouseOut(x, src) {
           x.src = src;
         }
-        function showTooltip(element, text) {
-          var tooltip = element.nextElementSibling; // Get the next sibling element, which is the tooltip
-          tooltip.innerHTML = text;
-          tooltip.style.visibility = "visible";
-          tooltip.style.opacity = 1;
-        }
 
-        function hideTooltip(element) {
-          var tooltip = element.nextElementSibling; // Get the next sibling element, which is the tooltip
-          tooltip.style.visibility = "hidden";
-          tooltip.style.opacity = 0;
-        }
+        async function logout() {
+          try {
+            console.log("Attempting logout..."); // Debugging log
 
-        document.addEventListener("DOMContentLoaded", function () {
-          // Initially hide all tooltips
-          var tooltips = document.querySelectorAll(".tooltiptext");
-          tooltips.forEach(function (tooltip) {
-            tooltip.style.visibility = "hidden";
-            tooltip.style.opacity = 0;
-          });
-        });
+            const response = await fetch("/logout", { method: "POST" });
 
-        const searchInput = document.getElementById("searchInput");
-        const searchIcon = document.getElementById("searchIcon");
+            if (response.ok) {
+              console.log("Logout request successful."); // Debugging log
 
-        searchIcon.addEventListener("click", function () {
-          const searchTerm = searchInput.value.trim();
-          if (searchTerm !== "") {
-            // Replace this with your search function
-            console.log("Searching for: " + searchTerm);
-            // Add your search logic here
-          } else {
-            console.log("Please enter a search term.");
+              const responseData = await response.json();
+
+              if (responseData.redirectToLogin) {
+                console.log("Redirecting to login page..."); // Debugging log
+
+                // Clear the session cookie on the client side
+                document.cookie =
+                  "connect.sid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+                // Clear login status from localStorage
+                localStorage.removeItem("isLoggedIn");
+
+                // Redirect to the login page
+                window.location.href = "/login.html";
+              }
+            } else {
+              console.error("Logout request failed."); // Debugging log
+            }
+          } catch (error) {
+            console.error("Error during logout:", error);
           }
-        });
+        }
+
+        // Prevent back button after logout
+        function preventBack() {
+          window.history.forward();
+        }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () {
+          null;
+        };
 
         function handleSearchButtonClick() {
           // Get the search input value

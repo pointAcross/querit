@@ -380,6 +380,23 @@
       document
         .getElementById("searchIcon")
         .addEventListener("click", handleSearchButtonClick);
+
+      function handleOpenButtonClick(topic) {
+        // Construct the search URL with the topic
+        const searchUrl = `/topics.html?topic=${encodeURIComponent(topic)}`;
+
+        // Redirect the user to the topics page with the search URL
+        window.location.href = searchUrl;
+      }
+
+      // Add event listeners to all "Open" buttons
+      document.querySelectorAll(".box").forEach((box) => {
+        const topic = box.querySelector("#box-text-l").innerText;
+        const openButton = box.querySelector("#box-text-r");
+        openButton.addEventListener("click", () => {
+          handleOpenButtonClick(topic);
+        });
+      });
     </script>
   </body>
 </html>
