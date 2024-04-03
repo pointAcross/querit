@@ -22,7 +22,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/proj", express.static(path.join(__dirname, "proj")));
 
 // MongoDB connection configuration
-const mongoURI = "mongodbURI"; // Change this to your MongoDB URI
+const mongoURI = "mongodb"; // Change this to your MongoDB URI
 const dbName = "querit"; // Change this to your database name
 const client = new MongoClient(mongoURI);
 
@@ -651,6 +651,30 @@ app.get("/search", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Route handler for fetching posts by topic
+app.get("/getPostByTopic", async (req, res) => {
+  try {
+    // Extract the topic from the query parameters
+    const topic = req.query.topic;
+
+    // Validate if the topic parameter is provided
+    if (!topic) {
+      return res.status(400).json({ message: "Topic parameter is missing" });
+    }
+
+    // Retrieve posts from the database based on the specified topic
+    const db = client.db(dbName);
+    const collection = db.collection("posts");
+    const posts = await collection.find({ topic: topic }).toArray();
+
+    // Send the retrieved posts back as a JSON response
+    res.json(posts);
+  } catch (error) {
+    console.error("Error fetching posts by topic:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 
