@@ -52,7 +52,7 @@ fetch("http://localhost:3000/getPosts", {
         image.onerror = () => {
           console.log("Error fetching image:", post.filePath);
         };
-        image.src = post.filePath.replace(/\\/g, '/');
+        image.src = post.filePath.replace(/\\/g, "/");
         image.style.maxWidth = "100%";
         container.appendChild(image);
       }
@@ -112,12 +112,11 @@ fetch("http://localhost:3000/getPosts", {
       let commentCount = document.createElement("p");
       commentCount.innerText = post.commentCount;
 
-
       let commentContainer = document.createElement("div");
       commentContainer.appendChild(comment);
       commentContainer.appendChild(commentCount);
-      commentContainer.addEventListener("click", function() {
-        const postId = post._id; 
+      commentContainer.addEventListener("click", function () {
+        const postId = post._id;
         window.location.href = `/full_posts.html?postId=${postId}`; // Redirect to the full post page
       });
 
@@ -165,7 +164,6 @@ fetch("http://localhost:3000/getPosts", {
       actionContainer.appendChild(commentContainer);
       actionContainer.appendChild(viewContainer);
 
-
       let actionContainer2 = document.createElement("div");
       actionContainer2.style.cssText = `
         display: flex;
@@ -174,9 +172,7 @@ fetch("http://localhost:3000/getPosts", {
       `;
 
       actionContainer2.appendChild(actionContainer);
-      actionContainer2.appendChild(share);    
-
-  
+      actionContainer2.appendChild(share);
 
       container.appendChild(authorContainer);
       container.appendChild(title);

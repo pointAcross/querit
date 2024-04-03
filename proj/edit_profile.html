@@ -200,6 +200,24 @@
           console.error("Error during logout:", error);
         }
       }
+
+      function handleSearchButtonClick() {
+        // Get the search input value
+        const keywords = document.getElementById("searchInput").value.trim();
+
+        // Construct the search URL with the keyword
+        const searchUrl = `search.html?keywords=${encodeURIComponent(
+          keywords
+        )}`;
+
+        // Redirect the user to the search URL
+        window.location.href = searchUrl;
+      }
+
+      // Add event listener to the search button
+      document
+        .getElementById("searchIcon")
+        .addEventListener("click", handleSearchButtonClick);
     </script>
   </body>
 </html>
