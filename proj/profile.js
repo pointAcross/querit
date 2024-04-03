@@ -275,6 +275,10 @@ fetch("/getUserName")
         `;
           commentContainer.appendChild(comment);
           commentContainer.appendChild(commentCount);
+          commentContainer.addEventListener("click", function () {
+            const postId = post._id;
+            window.location.href = `/full_posts.html?postId=${postId}`; // Redirect to the full post page
+          });
 
           //share_svg
           let shareSVG =
