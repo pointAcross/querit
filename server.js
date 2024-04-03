@@ -22,7 +22,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/proj", express.static(path.join(__dirname, "proj")));
 
 // MongoDB connection configuration
-const mongoURI = "mongodb"; // Change this to your MongoDB URI
+const mongoURI = "mongodbURI"; // Change this to your MongoDB URI
 const dbName = "querit"; // Change this to your database name
 const client = new MongoClient(mongoURI);
 
@@ -629,6 +629,28 @@ app.post("/userComments", async (req, res) => {
   } catch (error) {
     console.error("Error fetching user comments:", error);
     res.status(500).json({ message: "Error fetching user comments" });
+  }
+});
+
+// Route to handle search requests
+app.get("/search", async (req, res) => {
+  const keywords = req.query.keywords; // Keywords entered by the user
+  try {
+    // Search for posts containing the keywords in title or content
+    const db = client.db(dbName);
+    const collection = db.collection("posts");
+    const posts = await collection
+      .find({
+        $or: [
+          { title: { $regex: keywords, $options: "i" } }, // Case-insensitive search in title
+          { content: { $regex: keywords, $options: "i" } }, // Case-insensitive search in content
+        ],
+      })
+      .toArray();
+    res.json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
