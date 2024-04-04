@@ -11,10 +11,12 @@ const multer = require("multer");
 const fs = require("fs");
 const uploadDir = "./uploads";
 const { ObjectId } = require("mongodb");
+const dotenv = require("dotenv");
 
 const app = express();
 const port = 3000;
 const secretKey = crypto.randomBytes(20).toString("hex");
+dotenv.config();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -22,7 +24,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use("/proj", express.static(path.join(__dirname, "proj")));
 
 // MongoDB connection configuration
-const mongoURI = "mongodb"; // Change this to your MongoDB URI
+const mongoURI = process.env.mongoURI;
 const dbName = "querit"; // Change this to your database name
 const client = new MongoClient(mongoURI);
 
