@@ -25,7 +25,7 @@ app.use("/proj", express.static(path.join(__dirname, "proj")));
 
 // MongoDB connection configuration
 const mongoURI = process.env.mongoURI;
-const dbName = "querit"; // Change this to your database name
+const dbName = process.env.dbName; // Change this to your database name
 const client = new MongoClient(mongoURI);
 
 async function connectToMongoDB() {
