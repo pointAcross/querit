@@ -74,7 +74,7 @@
           </div>
 
           <div class="tooltip">
-            <a href="postS.html" onclick="showContent('posts')">
+            <a href="posts.html" onclick="showContent('posts')">
               <img
                 src="images/post.png"
                 alt="Posts"
@@ -145,6 +145,14 @@
       </div>
 
       <script>
+        document
+          .getElementById("searchInput")
+          .addEventListener("keyup", function (event) {
+            if (event.key === "Enter") {
+              handleSearchButtonClick();
+            }
+          });
+
         function showContent(contentId) {
           // Hide all content sections
           document.getElementById("content-home").style.display = "none";
