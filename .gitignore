@@ -1,5 +1,6 @@
 #Custom
 *.json
+*.env
 # Logs
 logs
 *.log
