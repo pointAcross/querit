@@ -1,6 +1,6 @@
-#Custom
-*.json
+# Custom
 *.env
+
 # Logs
 logs
 *.log
