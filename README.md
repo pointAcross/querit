@@ -15,7 +15,7 @@ In the midst of our academic pursuits, tasked with the creation of a comprehensi
 As we develop and test this project, the primary users will be our teachers and a select group of students who will help populate the site with content and make it active. Teachers and coordinators will have admin privileges to moderate the content. Initially, users will be able to make text-based posts only. Once we ensure the basic functionality of the site is stable, we'll gradually introduce the ability to share multimedia content.
 
 ## The App
-This is a web app hosted on [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages) for now. We are using RDS DB from Amazon Web Services to host our MySQL database. While the backend will be made with [Node.js](https://nodejs.org) and the frontend is made up of HTML, CSS and JS. 
+This is a web app hosted on [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages) for now. We are using MongoDb to manage our database hosted through AWS in a NoSQL database. While the backend will be made with [Node.js](https://nodejs.org) and the frontend is made up of HTML, CSS and JS. 
 
 More information will be added as we develop the application in the times to come. Please note that this committed files don't reflect the current status of the project. 
 
