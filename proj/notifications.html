@@ -186,14 +186,6 @@
           console.error("Error during logout:", error);
         }
       }
-      // Prevent back button after logout
-      function preventBack() {
-        window.history.forward();
-      }
-      setTimeout("preventBack()", 0);
-      window.onunload = function () {
-        null;
-      };
 
       function handleSearchButtonClick() {
         // Get the search input value

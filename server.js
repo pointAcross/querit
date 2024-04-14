@@ -25,7 +25,7 @@ app.use("/proj", express.static(path.join(__dirname, "proj")));
 
 // MongoDB connection configuration
 const mongoURI = process.env.mongoURI;
-const dbName = process.env.dbName; // Change this to your database name
+const dbName = process.env.dbName;
 const client = new MongoClient(mongoURI);
 
 async function connectToMongoDB() {
@@ -53,18 +53,32 @@ connectToMongoDB();
 // Middleware to check if user is authenticated
 function isAuthenticated(req, res, next) {
   // Exclude login and register routes from authentication check
-  if (
-    req.path === "/login.html" ||
-    req.path === "/register.html" ||
-    (req.session && req.session.isLoggedIn)
-  ) {
+  if (req.path === "/login.html" || (req.session && req.session.isLoggedIn)) {
+    // If the user is logged in and trying to access the login page, redirect to home
+    if (req.session.isLoggedIn && req.path === "/login.html") {
+      return res.redirect("/home.html");
+    }
     return next();
   }
   // If not authenticated and not accessing login or register page, redirect to login
   res.redirect("/login.html");
 }
 
-// Protect pages
+// Serve login page only if user is not authenticated
+app.get("/login.html", (req, res, next) => {
+  if (req.session.isLoggedIn) {
+    return res.redirect("/home.html"); // Redirect logged-in users to home page
+  }
+  // Set headers to prevent caching
+  res.set({
+    "Cache-Control": "no-store, no-cache, must-revalidate, private",
+    Pragma: "no-cache",
+    Expires: "-1",
+  });
+  next(); // Serve login page to non-authenticated users
+});
+
+// Protect pages and serve static files after applying authentication middleware
 app.get(
   [
     "/home.html",
@@ -89,12 +103,20 @@ app.get("/", (req, res) => {
   res.send("Server is running.");
 });
 
-// Function to insert user into the database
-async function insertUserToDatabase(user) {
-  const db = client.db(dbName);
-  const collection = db.collection("users");
-  await collection.insertOne(user);
-}
+app.get("/checkSession", (req, res) => {
+  if (req.session.isLoggedIn) {
+    res.json({ isLoggedIn: true });
+  } else {
+    res.json({ isLoggedIn: false });
+  }
+});
+
+// Legacy code to enter user data into the database
+// async function insertUserToDatabase(user) {
+//   const db = client.db(dbName);
+//   const collection = db.collection("users");
+//   await collection.insertOne(user);
+// }
 
 // Route handler for user registration
 app.post("/register", async (req, res) => {
@@ -506,6 +528,7 @@ app.post("/uploadFile", upload.single("file"), (req, res) => {
   }
 });
 
+// Route handler to fetch posts by ID
 app.post("/getPostByID", async (req, res) => {
   try {
     const { postID } = req.body;

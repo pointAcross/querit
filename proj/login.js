@@ -1,3 +1,14 @@
+fetch("/checkSession", {
+  credentials: "include", // This ensures cookies are sent with the request
+})
+  .then((response) => response.json())
+  .then((data) => {
+    if (data.isLoggedIn) {
+      window.location.href = "/home.html";
+    }
+  })
+  .catch((error) => console.error("Error checking session:", error));
+
 // Function to generate a random CAPTCHA
 function generateCaptcha(captchaId) {
   const captchaElement = document.getElementById(captchaId);

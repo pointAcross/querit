@@ -131,6 +131,24 @@ function fetchPostByID(postID) {
           '<svg width="16" height="22" viewBox="0 0 16 22" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.6666 4.58332L10.365 5.88499L8.90746 4.42749V14.6667H7.09246V4.42749L5.63496 5.88499L4.33329 4.58332L7.99996 0.916656L11.6666 4.58332ZM15.3333 9.16666V19.25C15.3333 20.2583 14.5083 21.0833 13.5 21.0833H2.49996C1.48246 21.0833 0.666626 20.2583 0.666626 19.25V9.16666C0.666626 8.14916 1.48246 7.33332 2.49996 7.33332H5.24996V9.16666H2.49996V19.25H13.5V9.16666H10.75V7.33332H13.5C14.5083 7.33332 15.3333 8.14916 15.3333 9.16666Z" fill="white"/></svg>';
         let share = document.createElement("div");
         share.innerHTML = shareSVG;
+        // Add an event listener to the share button
+        share.addEventListener("click", function () {
+          // Get the URL to be copied
+          const urlToCopy = window.location.href;
+
+          // Use the Clipboard API to copy the URL to the clipboard
+          navigator.clipboard
+            .writeText(urlToCopy)
+            .then(function () {
+              // URL copied successfully
+              alert("URL copied to clipboard!");
+            })
+            .catch(function (error) {
+              // Unable to copy URL
+              console.error("Error copying URL:", error);
+              alert("Failed to copy URL. Please try again.");
+            });
+        });
 
         //view_svg
         let viewSVG =
